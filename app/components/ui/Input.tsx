@@ -1,18 +1,19 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { LucideIcon, Search } from "lucide-react";
 
 interface InputProps {
   type?: "primary" | "box";
-  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  icon?: LucideIcon;
   className?: string;
   width?: string;
   onClick?: () => void;
+  size?: number;
 }
 
 function Input({
-  type = "primary", // Default style
-  icon: Icon = Search, // Default icon from lucide-react
+  type = "primary",
+  icon: Icon = Search,
   className = "",
   width = "w-48",
   onClick,
