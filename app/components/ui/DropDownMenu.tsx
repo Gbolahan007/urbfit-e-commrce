@@ -49,14 +49,14 @@ function DropdownMenu({ category }: DropdownMenuProps) {
         <div className="flex items-start justify-around gap-12 mt-4 flex-wrap">
           {Object.entries(menuItems[category] || {}).map(([heading, items]) => (
             <div key={heading} className="min-w-[150px]">
-              <h4 className="bold mb-2 uppercase whitespace-nowrap">
+              <h4 className=" text-black mb-2 uppercase whitespace-nowrap">
                 {heading}
               </h4>
               <ul className="space-y-2">
                 {items.map((item) => (
                   <li key={item}>
                     <Link
-                      href={`/products/${item
+                      href={`/collection/${item
                         .toLowerCase()
                         .replace(/\s/g, "-")}`}
                       className="hover:underline text-xs text-black"

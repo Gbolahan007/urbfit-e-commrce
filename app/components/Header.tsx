@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { Kaushan_Script, Tektur } from "@next/font/google";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
-import HomeMenuDetails from "./ui/HomeMenuDetails";
-import HomeCursor from "./ui/HomeCursor";
+import { useEffect, useRef, useState } from "react";
 import DropdownMenu from "./ui/DropDownMenu";
-import { Tektur } from "@next/font/google";
-import { Kaushan_Script } from "@next/font/google";
+import HomeCursor from "./ui/HomeCursor";
+import HomeMenuDetails from "./ui/HomeMenuDetails";
 
 const tek = Tektur({
   weight: "400",
@@ -76,7 +75,7 @@ function Header() {
               setPosition((prev) => ({ ...prev, opacity: 0 }));
               setHoveredItem(null);
             }}
-            className={`flex space-x- relative mx-auto bg-transparent p-1 w-fit shadow-2xl rounded-full font-semibold border ${
+            className={`flex  space-x- relative mx-auto bg-transparent p-1 w-fit shadow-2xl rounded-full font-semibold border ${
               scrolled ? "border-black" : "border-white"
             }`}
           >
@@ -100,7 +99,6 @@ function Header() {
                   });
                   setHoveredItem(item);
                 }}
-                className="text-white"
               >
                 {item === "Collection" ? (
                   <a

@@ -44,7 +44,7 @@ export default function TrendingNew() {
               duration: 0.6,
               ease: "easeOut",
             }}
-            viewport={{ amount: 0.3, once: false }}
+            viewport={{ amount: 0.3, once: true }}
           >
             <Link
               href={`/collection/men/${item.slug}`}

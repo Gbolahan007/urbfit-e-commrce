@@ -42,7 +42,7 @@ export default function TopPicks() {
               duration: 0.6,
               ease: "easeOut",
             }}
-            viewport={{ amount: 0.3, once: false }}
+            viewport={{ amount: 0.3, once: true }}
           >
             <Link
               href={`/collection/men/${item.slug}`}
@@ -62,11 +62,6 @@ export default function TopPicks() {
                           (max-width: 1200px) 33vw,
                           25vw"
                 />
-                {item.is_top_picks && (
-                  <div className="absolute top-1 left-1 sm:top-2 sm:left-2 bg-red-500 text-white px-1.5 py-0.5 sm:px-2 sm:py-1 text-[8px] sm:text-xs font-semibold rounded">
-                    Top Pick
-                  </div>
-                )}
               </div>
 
               {/* Content */}

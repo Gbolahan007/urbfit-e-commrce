@@ -7,6 +7,9 @@ import { useRouter } from "next/navigation";
 import TopPicks from "./components/ui/HomeSection/TopPicks";
 import TrendingNew from "./components/ui/HomeSection/TrendingNew";
 import HomeJoggers from "./components/ui/HomeSection/HomeJoggers";
+import DiscoverBrand from "./components/ui/HomeSection/DiscoverBrand";
+import HomeMenWear from "./components/ui/HomeSection/HomeMenWear";
+import HomeLogoDisplay from "./components/ui/HomeSection/HomeLogoDisplay";
 
 const HomeHeroSection = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
@@ -66,6 +69,18 @@ const HomeHeroSection = () => {
 
         <div className="mt-36">
           <HomeJoggers />
+        </div>
+
+        <div className="mt-5">
+          <DiscoverBrand />
+        </div>
+
+        <div className="mt-8">
+          <HomeMenWear />
+        </div>
+
+        <div className="mt-8">
+          <HomeLogoDisplay />
         </div>
       </div>
     </div>

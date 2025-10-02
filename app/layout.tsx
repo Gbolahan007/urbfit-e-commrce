@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import { Tektur } from "@next/font/google";
 import ReactQueryProvider from "./(provider)/ReactQueryProvider";
+import { Footer } from "./components/Footer";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,6 +41,7 @@ export default function RootLayout({
           <div className={`${tek.className}`}>
             <Header />
             <main className="flex-grow">{children}</main>
+            <Footer />
           </div>
         </ReactQueryProvider>
       </body>
