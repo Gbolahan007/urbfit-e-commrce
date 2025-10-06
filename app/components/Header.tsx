@@ -3,7 +3,7 @@
 import { Kaushan_Script, Tektur } from "@next/font/google";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import DropdownMenu from "./ui/DropDownMenu";
 import HomeCursor from "./ui/HomeCursor";
@@ -39,6 +39,9 @@ function Header() {
 
   const refs = useRef<(HTMLLIElement | null)[]>([]);
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,20 +52,20 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Determine header styles based on page and scroll state
+  const isTransparent = isHomePage && !scrolled;
+  const textColor = isTransparent ? "text-white" : "text-black";
+  const borderColor = isTransparent ? "border-white" : "border-black";
+  const bgColor = isTransparent ? "bg-transparent" : "bg-white shadow-md";
+
   return (
     <nav
-      className={`${
-        tek.className
-      } fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-        scrolled ? "bg-white shadow-md" : "bg-transparent"
-      }`}
+      className={`${tek.className} fixed top-0 left-0 z-50 w-full transition-all duration-300 ${bgColor}`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <Link href="/" passHref legacyBehavior>
           <a
-            className={`${kau.className} text-2xl font-bold cursor-pointer ${
-              scrolled ? "text-black" : "text-white"
-            }`}
+            className={`${kau.className} text-2xl font-bold cursor-pointer ${textColor}`}
           >
             URB<span className="text-[#a4a4a4]">FIT</span>
           </a>
@@ -75,9 +78,7 @@ function Header() {
               setPosition((prev) => ({ ...prev, opacity: 0 }));
               setHoveredItem(null);
             }}
-            className={`flex  space-x- relative mx-auto bg-transparent p-1 w-fit shadow-2xl rounded-full font-semibold border ${
-              scrolled ? "border-black" : "border-white"
-            }`}
+            className={`flex  relative mx-auto bg-transparent p-1 w-fit shadow-2xl rounded-full font-semibold border ${borderColor}`}
           >
             {categories.map((item, index) => (
               <li
@@ -135,7 +136,7 @@ function Header() {
         {/* HomeMenuDetails */}
         <motion.div>
           <AnimatePresence>
-            <HomeMenuDetails scrolled={scrolled} />
+            <HomeMenuDetails scrolled={scrolled} isHomePage={isHomePage} />
           </AnimatePresence>
         </motion.div>
       </div>

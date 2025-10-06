@@ -5,11 +5,20 @@ export async function getCategory() {
 
   if (error) {
     console.error(error);
-    throw new Error("Could not fetch products");
+    throw new Error("Could not fetch category products");
   }
   return data ?? [];
 }
 
+export async function getProducts() {
+  const { data, error } = await supabase.from("products").select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not fetch products");
+  }
+  return data ?? [];
+}
 export async function getTopPicks() {
   const { data, error } = await supabase
     .from("products")
@@ -18,7 +27,7 @@ export async function getTopPicks() {
 
   if (error) {
     console.error(error);
-    throw new Error("Could not fetch products");
+    throw new Error("Could not fetch top picks products");
   }
   return data ?? [];
 }
@@ -31,7 +40,7 @@ export async function getTrendingNew() {
 
   if (error) {
     console.error(error);
-    throw new Error("Could not fetch products");
+    throw new Error("Could not fetch trending products");
   }
   console.log(data);
   return data ?? [];
@@ -42,7 +51,7 @@ export async function getBrands() {
 
   if (error) {
     console.error(error);
-    throw new Error("Could not fetch products");
+    throw new Error("Could not fetch products brands");
   }
   return data ?? [];
 }

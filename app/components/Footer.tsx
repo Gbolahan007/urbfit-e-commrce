@@ -149,7 +149,7 @@ export function Footer() {
 
         {/* Brand Logo */}
         <div className=" border-gray-800 pt-12">
-          <h2 className="text-7xl md:text-8xl lg:text-9xl font-black tracking-widest text-center">
+          <h2 className="text-7xl md:text-8xl lg:text-[12rem] font-black tracking-widest text-center">
             URBFIT
           </h2>
         </div>

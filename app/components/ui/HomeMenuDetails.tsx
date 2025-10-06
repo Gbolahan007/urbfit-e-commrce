@@ -14,9 +14,10 @@ import HamburgerMenu from "./HamburgerMenu";
 
 interface HomeMenuDetailsProps {
   scrolled: boolean;
+  isHomePage: boolean;
 }
 
-function HomeMenuDetails({ scrolled }: HomeMenuDetailsProps) {
+function HomeMenuDetails({ scrolled, isHomePage }: HomeMenuDetailsProps) {
   const router = useRouter();
   const [dropSearch, setDropSearch] = useState(false);
   const [onClickSearch, setOnClickSearch] = useState(false);
@@ -32,13 +33,14 @@ function HomeMenuDetails({ scrolled }: HomeMenuDetailsProps) {
     setHamburgerMenuModal(true);
   }
 
-  const iconColor = scrolled ? "text-black" : "text-white";
+  // Icon color logic: white only on home page when not scrolled, black everywhere else
+  const iconColor = isHomePage && !scrolled ? "text-white" : "text-black";
 
   return (
     <div className="flex items-center p-1 justify-center">
       <ul className="flex items-center justify-center gap-3">
         <li className="relative">
-          <motion.div className="hidden sm:block">
+          <motion.div className="hidden lg:block">
             <div onClick={handleDropDownSearch}>
               <Input />
             </div>
@@ -48,7 +50,7 @@ function HomeMenuDetails({ scrolled }: HomeMenuDetailsProps) {
             </AnimatePresence>
           </motion.div>
 
-          <motion.div className={`sm:hidden cursor-pointer ${iconColor}`}>
+          <motion.div className={`lg:hidden cursor-pointer ${iconColor}`}>
             <div onClick={handleSideSearch}>
               <Search size={28} />
             </div>
