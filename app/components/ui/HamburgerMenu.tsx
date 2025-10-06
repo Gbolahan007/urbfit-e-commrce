@@ -43,7 +43,10 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
         >
           <li>
             <button
-              onClick={() => router.push("/men")}
+              onClick={() => {
+                router.push("/men");
+                setHamburgerMenuModal(false);
+              }}
               className="w-full text-left pb-2 uppercase hover:underline"
             >
               Men
@@ -51,7 +54,10 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
           </li>
           <li>
             <button
-              onClick={() => router.push("/kids")}
+              onClick={() => {
+                router.push("/kids");
+                setHamburgerMenuModal(false);
+              }}
               className="w-full text-left pb-2 uppercase hover:underline"
             >
               Kids
@@ -59,7 +65,10 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
           </li>
           <li>
             <button
-              onClick={() => router.push("/women")}
+              onClick={() => {
+                router.push("/women");
+                setHamburgerMenuModal(false);
+              }}
               className="w-full text-left pb-2 uppercase hover:underline"
             >
               Women
@@ -67,7 +76,10 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
           </li>
           <li>
             <button
-              onClick={() => router.push("/collection")}
+              onClick={() => {
+                router.push("/collection");
+                setHamburgerMenuModal(false);
+              }}
               className="w-full text-left pb-2 uppercase hover:underline"
             >
               Collection
@@ -78,13 +90,19 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
         {/* Login & Sign Up Buttons */}
         <div className="absolute bottom-6 left-0 w-full px-4">
           <button
-            onClick={() => router.push("/login")}
+            onClick={() => {
+              router.push("/login");
+              setHamburgerMenuModal(false);
+            }}
             className="w-full py-2 mb-3 text-center uppercase border border-black transition-all hover:bg-black hover:text-white"
           >
             Login
           </button>
           <button
-            onClick={() => router.push("/signup")}
+            onClick={() => {
+              router.push("/signup");
+              setHamburgerMenuModal(false);
+            }}
             className="w-full py-2 text-center uppercase bg-black text-white transition-all hover:opacity-90"
           >
             Sign Up

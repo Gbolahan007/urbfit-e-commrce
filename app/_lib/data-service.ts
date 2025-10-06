@@ -1,7 +1,22 @@
 import supabase from "./supabase";
 
 export async function getCategory() {
-  const { data, error } = await supabase.from("subCategory").select("*");
+  const { data, error } = await supabase
+    .from("subCategory")
+    .select("*")
+    .eq("gender", "men");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not fetch category products");
+  }
+  return data ?? [];
+}
+export async function getWomenCategory() {
+  const { data, error } = await supabase
+    .from("subCategory")
+    .select("*")
+    .eq("gender", "women");
 
   if (error) {
     console.error(error);
@@ -15,6 +30,20 @@ export async function getMenProducts() {
     .from("products")
     .select("*")
     .eq("gender", "men");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not fetch products");
+  }
+
+  return data ?? [];
+}
+
+export async function getwomenProducts() {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("gender", "women");
 
   if (error) {
     console.error(error);

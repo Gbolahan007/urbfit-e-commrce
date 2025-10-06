@@ -5,12 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import FilterPage from "../components/ui/FilterPage";
 import { ProductGrid } from "../components/ui/products/ProductGrid";
-import { useHomeCategories } from "../queries/useHomeCategories";
-import { useMenProducts } from "../queries/useMenProducts";
+import { useWomenCategories } from "../queries/useWomenCategory";
+import { useWomenProducts } from "../queries/useWomenProducts";
 
 export default function Page() {
-  const { homeCategory, homeCategoryLoading } = useHomeCategories();
-  const { products, isLoadingproducts } = useMenProducts();
+  const { womenCategory, womenCategoryLoading } = useWomenCategories();
+  const { products, isLoadingwomenProduct } = useWomenProducts();
   const pathname = usePathname();
 
   return (
@@ -18,24 +18,24 @@ export default function Page() {
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
         <div className="text-sm text-center py-7 mb-8">
-          <h1 className="text-black text-4xl mb-4">Men&apos;s Collection</h1>
+          <h1 className="text-black text-4xl mb-4">Women&apos;s Collection</h1>
           <Link href="/collection" className="hover:underline text-gray-600">
             Collection
           </Link>
           <span className="text-black">{pathname}</span>
         </div>
 
-        {/* Category Horizontal Slider */}
+        {/* Horizontal Category Slider */}
         <div className="overflow-x-auto">
           <div className="flex gap-6 pb-4 relative">
-            {homeCategoryLoading
+            {womenCategoryLoading
               ? Array.from({ length: 5 }).map((_, i) => (
                   <div
                     key={i}
                     className="w-64 h-80 bg-gray-200 animate-pulse"
                   />
                 ))
-              : homeCategory?.map((category) => (
+              : womenCategory?.map((category) => (
                   <Link
                     key={category.id}
                     href={`/collection/${category.slug}`}
@@ -44,7 +44,7 @@ export default function Page() {
                     <div className="relative w-64 h-80">
                       <Image
                         fill
-                        src={category?.image || "/fallback.jpg"}
+                        src={category?.image_url || "/fallback.jpg"}
                         alt={category?.name || "Category"}
                         className="object-cover"
                       />
@@ -62,7 +62,7 @@ export default function Page() {
         <div className="mt-8 mb-16">
           <ProductGrid
             products={products || []}
-            isLoading={isLoadingproducts}
+            isLoading={isLoadingwomenProduct}
           />
         </div>
       </div>
