@@ -2,11 +2,18 @@
 
 import { useState } from "react";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useMenProducts } from "@/app/queries/useMenProducts";
+import { useWomenProducts } from "@/app/queries/useWomenProducts";
 
 export default function FilterPage() {
   const [showAllFilters, setShowAllFilters] = useState(false);
-  const { products } = useMenProducts();
+  const pathname = usePathname();
+  const { products: menProducts } = useMenProducts();
+  const { products: womenProducts } = useWomenProducts();
+
+  const isWomenPage = pathname?.toLowerCase().includes("/women");
+  const isMenPage = pathname?.toLowerCase().includes("/men");
 
   return (
     <div className="text-black flex items-center justify-center py-12 bg-white">
@@ -24,36 +31,35 @@ export default function FilterPage() {
                 htmlFor="new-in"
                 className="text-sm font-medium leading-none"
               >
-                New In ({products?.length})
+                New In (
+                {isMenPage
+                  ? menProducts?.length
+                  : isWomenPage
+                  ? womenProducts?.length
+                  : 0}
+                )
               </label>
             </div>
 
-            {/* Buttons */}
-            <button className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100">
-              Colour
-              <ChevronDown className="h-4 w-4" />
-            </button>
+            {/* Shared Filters */}
+            {["Colour", "Size", "Fit", "Style", "Sort"].map((item) => (
+              <button
+                key={item}
+                className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100"
+              >
+                {item}
+                <ChevronDown className="h-4 w-4" />
+              </button>
+            ))}
 
-            <button className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100">
-              Size
-              <ChevronDown className="h-4 w-4" />
-            </button>
+            {isWomenPage && (
+              <button className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100">
+                Dress Length
+                <ChevronDown className="h-4 w-4" />
+              </button>
+            )}
 
-            <button className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100">
-              Length
-              <ChevronDown className="h-4 w-4" />
-            </button>
-
-            <button className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100">
-              Fit
-              <ChevronDown className="h-4 w-4" />
-            </button>
-
-            <button className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100">
-              Style
-              <ChevronDown className="h-4 w-4" />
-            </button>
-
+            {/* More / Less Button */}
             <button
               onClick={() => setShowAllFilters(!showAllFilters)}
               className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent font-semibold hover:bg-gray-100"
@@ -61,14 +67,9 @@ export default function FilterPage() {
               {showAllFilters ? "LESS" : "MORE"}
               <SlidersHorizontal className="h-4 w-4" />
             </button>
-
-            <button className="flex items-center gap-2 border border-gray-300 rounded px-3 py-1 bg-transparent hover:bg-gray-100">
-              Sort
-              <ChevronDown className="h-4 w-4" />
-            </button>
           </div>
 
-          {/* Additional Rows - Collapsible */}
+          {/* Additional Filters (Collapsible) */}
           {showAllFilters && (
             <>
               {/* Second Row */}
