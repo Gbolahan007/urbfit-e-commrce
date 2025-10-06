@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
+import { useMenProducts } from "@/app/queries/useMenProducts";
 
 export default function FilterPage() {
   const [showAllFilters, setShowAllFilters] = useState(false);
+  const { products } = useMenProducts();
 
   return (
     <div className="text-black flex items-center justify-center py-12 bg-white">
@@ -22,7 +24,7 @@ export default function FilterPage() {
                 htmlFor="new-in"
                 className="text-sm font-medium leading-none"
               >
-                New In (214)
+                New In ({products?.length})
               </label>
             </div>
 

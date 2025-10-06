@@ -3,18 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useHomeCategories } from "../queries/useHomeCategories";
 import FilterPage from "../components/ui/FilterPage";
-import { useProducts } from "../queries/useProducts";
 import { ProductGrid } from "../components/ui/products/ProductGrid";
+import { useHomeCategories } from "../queries/useHomeCategories";
+import { useMenProducts } from "../queries/useMenProducts";
 
 export default function Page() {
   const { homeCategory } = useHomeCategories();
-  const { products } = useProducts();
+  const { products } = useMenProducts();
   const pathname = usePathname();
 
   return (
-    <div className="bg-white pt-28">
+    <div className="bg-white border-2  pt-28">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
         <div className="text-sm text-center py-7 mb-8">

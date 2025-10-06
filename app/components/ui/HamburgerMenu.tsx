@@ -43,7 +43,7 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
         >
           <li>
             <button
-              onClick={() => router.push("/collection/men")}
+              onClick={() => router.push("/men")}
               className="w-full text-left pb-2 uppercase hover:underline"
             >
               Men
@@ -51,7 +51,7 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
           </li>
           <li>
             <button
-              onClick={() => router.push("/collection/kids")}
+              onClick={() => router.push("/kids")}
               className="w-full text-left pb-2 uppercase hover:underline"
             >
               Kids
@@ -59,7 +59,7 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
           </li>
           <li>
             <button
-              onClick={() => router.push("/collection/women")}
+              onClick={() => router.push("/women")}
               className="w-full text-left pb-2 uppercase hover:underline"
             >
               Women

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../_lib/data-service";
+import { getMenProducts } from "../_lib/data-service";
 
-export function useProducts() {
+export function useMenProducts() {
   const { data: products } = useQuery({
     queryKey: ["products"],
-    queryFn: () => getProducts(),
+    queryFn: () => getMenProducts(),
   });
   return { products };
 }

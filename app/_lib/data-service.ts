@@ -10,15 +10,20 @@ export async function getCategory() {
   return data ?? [];
 }
 
-export async function getProducts() {
-  const { data, error } = await supabase.from("products").select("*");
+export async function getMenProducts() {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("gender", "men");
 
   if (error) {
     console.error(error);
     throw new Error("Could not fetch products");
   }
+
   return data ?? [];
 }
+
 export async function getTopPicks() {
   const { data, error } = await supabase
     .from("products")

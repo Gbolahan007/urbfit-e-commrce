@@ -17,7 +17,7 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <div className="group relative flex flex-col">
+    <div className="group  relative flex flex-col">
       {/* Product Image Container */}
       <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
         <Link href={`/product/${product.slug || product.id}`}>
@@ -58,7 +58,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Price */}
         <div className="mt-1">
-          <span className="text-lg font-bold text-red-600">
+          <span className="text-lg font-bold text-black">
             £{product.price.toFixed(2)}
           </span>
         </div>
