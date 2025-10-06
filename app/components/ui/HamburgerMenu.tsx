@@ -23,7 +23,7 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
       >
         {/* Close Button */}
         <button
-          className="absolute right-3 top-3 flex items-center justify-center rounded-full bg-gray-200 p-2 transition-all hover:bg-gray-200 active:scale-90"
+          className="absolute right-3 top-3 flex items-center justify-center rounded-full bg-gray-200 p-2 transition-all hover:bg-gray-200 active:scale-90 "
           onClick={(e) => {
             e.stopPropagation();
             setHamburgerMenuModal(false);
@@ -46,8 +46,9 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
               onClick={() => {
                 router.push("/men");
                 setHamburgerMenuModal(false);
+                console.log("false");
               }}
-              className="w-full text-left pb-2 uppercase hover:underline"
+              className="w-full text-left pb-2 uppercase hover:underline "
             >
               Men
             </button>

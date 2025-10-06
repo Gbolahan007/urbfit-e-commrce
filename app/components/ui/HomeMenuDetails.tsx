@@ -84,19 +84,20 @@ function HomeMenuDetails({ scrolled, isHomePage }: HomeMenuDetailsProps) {
           </button>
         </li>
 
-        <li className="sm:hidden">
+        <li className="sm:hidden relative">
+          {/* Hamburger button */}
           <button
             className={`rounded-full p-2 transition-all duration-200 ${iconColor}`}
             onClick={handleHamburgerMenu}
           >
             <Menu size={30} />
-
-            <AnimatePresence>
-              {hamburgerMenuModal && (
-                <HamburgerMenu setHamburgerMenuModal={setHamburgerMenuModal} />
-              )}
-            </AnimatePresence>
           </button>
+
+          <AnimatePresence>
+            {hamburgerMenuModal && (
+              <HamburgerMenu setHamburgerMenuModal={setHamburgerMenuModal} />
+            )}
+          </AnimatePresence>
         </li>
       </ul>
     </div>

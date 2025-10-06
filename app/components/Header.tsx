@@ -52,7 +52,6 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Determine header styles based on page and scroll state
   const isTransparent = isHomePage && !scrolled;
   const textColor = isTransparent ? "text-white" : "text-black";
   const borderColor = isTransparent ? "border-white" : "border-black";
