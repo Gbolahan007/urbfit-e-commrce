@@ -86,6 +86,17 @@ function HamburgerMenu({ setHamburgerMenuModal }: HamburgerMenuProps) {
               Collection
             </button>
           </li>
+          <li>
+            <button
+              onClick={() => {
+                router.push("/brands");
+                setHamburgerMenuModal(false);
+              }}
+              className="w-full text-left pb-2 uppercase hover:underline"
+            >
+              Brands
+            </button>
+          </li>
         </motion.ul>
 
         {/* Login & Sign Up Buttons */}

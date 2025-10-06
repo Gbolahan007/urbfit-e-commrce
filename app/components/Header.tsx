@@ -25,11 +25,53 @@ type Position = {
   opacity: number;
 };
 
-const categories = ["Men", "Kids", "Women", "Collection"] as const;
+const categories = ["Men", "Kids", "Women", "Collection", "Brands"] as const;
 type Category = (typeof categories)[number];
 
+const THRESHOLD = 50;
+const DELTA = 10;
+
+function useHideOnScroll() {
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
+  const [showNav, setShowNav] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const current = window.scrollY;
+
+      if (!ticking.current) {
+        ticking.current = true;
+        window.requestAnimationFrame(() => {
+          const delta = current - lastScrollY.current;
+
+          setIsScrolled(current > THRESHOLD);
+
+          if (Math.abs(delta) > DELTA) {
+            if (delta > 0 && current > THRESHOLD) {
+              setShowNav(false);
+            } else if (delta < 0) {
+              setShowNav(true);
+            }
+            lastScrollY.current = current;
+          } else {
+            lastScrollY.current = current;
+          }
+
+          ticking.current = false;
+        });
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return { showNav, isScrolled };
+}
+
 function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<Category | null>(null);
   const [position, setPosition] = useState<Position>({
     left: 0,
@@ -40,25 +82,20 @@ function Header() {
   const refs = useRef<(HTMLLIElement | null)[]>([]);
   const router = useRouter();
   const pathname = usePathname();
-
   const isHomePage = pathname === "/";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+  const { showNav, isScrolled } = useHideOnScroll();
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const isTransparent = isHomePage && !scrolled;
+  const isTransparent = isHomePage && !isScrolled;
   const textColor = isTransparent ? "text-white" : "text-black";
   const borderColor = isTransparent ? "border-white" : "border-black";
   const bgColor = isTransparent ? "bg-transparent" : "bg-white shadow-md";
 
   return (
-    <nav
+    <motion.nav
+      initial={{ y: 0 }}
+      animate={{ y: showNav ? 0 : "-100%" }}
+      transition={{ type: "spring", stiffness: 400, damping: 40 }}
       className={`${tek.className} fixed top-0 left-0 z-50 w-full transition-all duration-300 ${bgColor}`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
@@ -77,7 +114,7 @@ function Header() {
               setPosition((prev) => ({ ...prev, opacity: 0 }));
               setHoveredItem(null);
             }}
-            className={`flex  relative mx-auto bg-transparent p-1 w-fit shadow-2xl rounded-full font-semibold border ${borderColor}`}
+            className={`flex relative mx-auto bg-transparent p-1 w-fit shadow-2xl rounded-full font-semibold border ${borderColor}`}
           >
             {categories.map((item, index) => (
               <li
@@ -126,20 +163,17 @@ function Header() {
                 </AnimatePresence>
               </li>
             ))}
-
-            {/* HomeCursor */}
             <HomeCursor position={position} />
           </ul>
         </div>
 
-        {/* HomeMenuDetails */}
         <motion.div>
           <AnimatePresence>
-            <HomeMenuDetails scrolled={scrolled} isHomePage={isHomePage} />
+            <HomeMenuDetails scrolled={isScrolled} isHomePage={isHomePage} />
           </AnimatePresence>
         </motion.div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }
 
