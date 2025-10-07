@@ -12,6 +12,7 @@ interface ProductCardProps {
     image: string;
     price: number;
     slug?: string;
+    gender: string;
   };
 }
 
@@ -20,7 +21,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <div className="group  relative flex flex-col">
       {/* Product Image Container */}
       <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
-        <Link href={`/product/${product.slug || product.id}`}>
+        <Link href={`/${product.gender}/${product.slug || product.id}`}>
           <Image
             src={product.image || "/placeholder.svg"}
             alt={product.name}

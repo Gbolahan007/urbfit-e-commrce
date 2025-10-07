@@ -10,6 +10,7 @@ interface Product {
   image: string;
   price: number;
   slug?: string;
+  gender: string;
 }
 
 interface ProductGridProps {

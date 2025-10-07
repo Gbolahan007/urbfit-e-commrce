@@ -25,6 +25,21 @@ export async function getWomenCategory() {
   return data ?? [];
 }
 
+export async function getProductDetail(slug: string) {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("slug", slug)
+    .single();
+
+  if (error) {
+    console.error("Error fetching product detail:", error);
+    throw new Error("Could not fetch product detail");
+  }
+
+  return data;
+}
+
 export async function getMenProducts() {
   const { data, error } = await supabase
     .from("products")
@@ -88,4 +103,19 @@ export async function getBrands() {
     throw new Error("Could not fetch products brands");
   }
   return data ?? [];
+}
+
+export async function getRelatedProducts(category: string, slug: string) {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category", category)
+    .neq("slug", slug);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Related products could not be loaded");
+  }
+
+  return data;
 }

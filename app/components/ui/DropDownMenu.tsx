@@ -41,7 +41,7 @@ const menuItems = {
       "Next",
       "H&M",
       "Zara",
-      "River Island",
+      "Boohoo",
       "ASOS",
     ],
     "Top Designer Brands": [
@@ -52,9 +52,9 @@ const menuItems = {
       "Fred Perry",
       "Skopes",
       "Ralph Lauren",
-      "Balenciaga",
+      "Superdry",
       "Off-White",
-      "Michael Kors",
+      "Burberry",
     ],
     "Sport Brands": [
       "Nike",
