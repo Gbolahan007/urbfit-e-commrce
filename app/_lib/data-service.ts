@@ -24,6 +24,16 @@ export async function getWomenCategory() {
   }
   return data ?? [];
 }
+export async function getProducts() {
+  const { data, error } = await supabase.from("products").select("*");
+
+  if (error) {
+    console.error(error);
+    throw new Error("Could not fetch trending products");
+  }
+  console.log(data);
+  return data ?? [];
+}
 
 export async function getProductDetail(slug: string) {
   const { data, error } = await supabase

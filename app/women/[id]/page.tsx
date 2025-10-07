@@ -205,7 +205,7 @@ export default function Page() {
 
             {/* Add to Bag */}
             <div className="flex gap-3 mb-6">
-              <button className="flex-1 bg-black text-white font-semibold py-4 px-6 rounded transition-colors">
+              <button className="flex-1 bg-black text-white font-semibold py-4 px-6 transition-colors">
                 ADD TO BAG
               </button>
               <button className="p-4 border-2 border-gray-300 rounded hover:border-black transition-colors">

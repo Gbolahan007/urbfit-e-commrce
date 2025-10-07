@@ -5,15 +5,18 @@ import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useMenProducts } from "@/app/queries/useMenProducts";
 import { useWomenProducts } from "@/app/queries/useWomenProducts";
+import { useProducts } from "@/app/queries/useproducts";
 
 export default function FilterPage() {
   const [showAllFilters, setShowAllFilters] = useState(false);
   const pathname = usePathname();
   const { products: menProducts } = useMenProducts();
   const { products: womenProducts } = useWomenProducts();
+  const { products: totalProducts } = useProducts();
 
   const isWomenPage = pathname?.toLowerCase().includes("/women");
   const isMenPage = pathname?.toLowerCase().includes("/men");
+  const isCollectionPage = pathname?.toLowerCase().includes("/collection");
 
   return (
     <div className="text-black flex items-center justify-center py-12 bg-white">
@@ -36,6 +39,8 @@ export default function FilterPage() {
                   ? menProducts?.length
                   : isWomenPage
                   ? womenProducts?.length
+                  : isCollectionPage
+                  ? totalProducts?.length
                   : 0}
                 )
               </label>
