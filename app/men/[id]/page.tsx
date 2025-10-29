@@ -1,6 +1,6 @@
-// app/product/[id]/page.tsx
 import { getProductDetail } from "@/app/_lib/data-service";
 import ProductDetailClient from "./ProductDetailClient";
+import RelatedProducts from "@/app/components/ui/products/RelatedProducts";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const product = await getProductDetail(params.id);
@@ -13,5 +13,11 @@ export default async function Page({ params }: { params: { id: string } }) {
     );
   }
 
-  return <ProductDetailClient product={product} />;
+  return (
+    <>
+      <ProductDetailClient product={product} />
+
+      <RelatedProducts category={product.category} slug={product.slug} />
+    </>
+  );
 }

@@ -1,30 +1,74 @@
+// app/components/ui/products/RelatedProducts.tsx
+import Image from "next/image";
+import Link from "next/link";
 import { getRelatedProducts } from "@/app/_lib/data-service";
-import RelatedProductsClient from "./RelatedProductsClient";
 
 interface Product {
   id: string;
-  name: string;
-  image: string;
-  price: number;
   slug: string;
-  image2?: string;
+  name: string;
+  price: number;
+  image: string;
   category: string;
-  gender: string;
+  brand?: string;
 }
 
 export const revalidate = 300;
 
 export default async function RelatedProducts({
-  products,
+  category,
+  slug,
 }: {
-  products: Product;
+  category: string;
+  slug: string;
 }) {
-  const relatedProducts = await getRelatedProducts(
-    products?.category,
-    products?.slug
+  const relatedProducts = await getRelatedProducts(category, slug);
+
+  if (!relatedProducts || relatedProducts.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="w-full py-12 bg-white">
+      <div className="max-w-7xl mx-auto px-4">
+        <h2 className="text-2xl font-semibold mb-8 text-black">
+          You May Also Like
+        </h2>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          {relatedProducts.map((product: Product) => (
+            <Link
+              key={product.id}
+              href={`/men/${product.slug}`}
+              className="group flex flex-col"
+            >
+              <div className="relative w-full max-w-[300px] mx-auto aspect-[4/5] bg-gray-100 overflow-hidden mb-3">
+                <Image
+                  src={product.image || "/placeholder.svg"}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 200px"
+                />
+              </div>
+
+              <div className="space-y-1 w-full">
+                {product.brand && (
+                  <p className="text-sm font-medium text-gray-700">
+                    {product.brand}
+                  </p>
+                )}
+                <h3 className="text-sm text-black line-clamp-2 group-hover:underline">
+                  {product.name}
+                </h3>
+                <p className="text-base font-semibold text-black">
+                  £{product.price.toFixed(2)}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
   );
-
-  if (!relatedProducts || relatedProducts.length === 0) return null;
-
-  return <RelatedProductsClient relatedProducts={relatedProducts} />;
 }
