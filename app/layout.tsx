@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import { Tektur } from "@next/font/google";
 import ReactQueryProvider from "./(provider)/ReactQueryProvider";
 import { Footer } from "./components/Footer";
+import { CartModalProvider } from "./context/CartModalcontext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,11 +39,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReactQueryProvider>
-          <div className={`${tek.className}`}>
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
+          <CartModalProvider>
+            <div className={`${tek.className}`}>
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+          </CartModalProvider>
         </ReactQueryProvider>
       </body>
     </html>

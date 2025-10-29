@@ -8,7 +8,7 @@ export default function Loading() {
         {/* Brand Name */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-2xl font-bold tracking-[0.3em] animate-pulse">
+            <h1 className="text-xl font-bold tracking-[0.2em] animate-pulse">
               URBFIT
             </h1>
           </div>

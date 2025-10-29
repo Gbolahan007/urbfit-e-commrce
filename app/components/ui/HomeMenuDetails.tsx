@@ -1,16 +1,17 @@
 "use client";
 
-import { User, Menu } from "lucide-react";
-import { ShoppingBag } from "lucide-react";
-import { Search } from "lucide-react";
-
+import { User, Menu, ShoppingBag, Search } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Input from "./Input";
 import DropDownSearch from "./DropDownSearch";
 import SideSearch from "./SideSearch";
 import HamburgerMenu from "./HamburgerMenu";
+import { useCartStore } from "@/app/cart/store";
+import { useCartModal } from "@/app/context/CartModalcontext";
+import CartModal from "@/app/cart/Cartmodal";
 
 interface HomeMenuDetailsProps {
   scrolled: boolean;
@@ -22,6 +23,16 @@ function HomeMenuDetails({ scrolled, isHomePage }: HomeMenuDetailsProps) {
   const [dropSearch, setDropSearch] = useState(false);
   const [onClickSearch, setOnClickSearch] = useState(false);
   const [hamburgerMenuModal, setHamburgerMenuModal] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  const getItemCount = useCartStore((state) => state.getItemCount);
+  const count = hasMounted ? getItemCount() : 0;
+
+  const { openModal } = useCartModal();
 
   function handleDropDownSearch() {
     setDropSearch(true);
@@ -39,6 +50,7 @@ function HomeMenuDetails({ scrolled, isHomePage }: HomeMenuDetailsProps) {
   return (
     <div className="flex items-center p-1 justify-center">
       <ul className="flex items-center justify-center gap-3">
+        {/* Search */}
         <li className="relative">
           <motion.div className="hidden lg:block">
             <div onClick={handleDropDownSearch}>
@@ -63,29 +75,29 @@ function HomeMenuDetails({ scrolled, isHomePage }: HomeMenuDetailsProps) {
           </motion.div>
         </li>
 
+        {/* User Icon */}
         <li>
           <button onClick={() => router.push("/login")} className={iconColor}>
             <User size={30} />
           </button>
         </li>
 
-        <li>
-          <button
-            onClick={() => router.push("/cart")}
-            className="relative cursor-pointer"
-          >
-            {/* Cart Icon */}
+        {/* Cart Icon */}
+        <li className="relative" onMouseEnter={openModal}>
+          <Link href="/cart" className="relative cursor-pointer block">
             <ShoppingBag size={28} className={iconColor} />
 
             {/* Cart Count Badge */}
             <div className="absolute -right-1.5 -top-2 flex h-6 w-6 items-center justify-center rounded-full border bg-black text-xs font-bold text-white shadow-md">
-              20
+              {count}
             </div>
-          </button>
+          </Link>
+
+          <CartModal />
         </li>
 
+        {/* Hamburger Menu (mobile only) */}
         <li className="sm:hidden relative">
-          {/* Hamburger button */}
           <button
             className={`rounded-full p-2 transition-all duration-200 ${iconColor}`}
             onClick={handleHamburgerMenu}
