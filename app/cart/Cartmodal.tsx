@@ -20,6 +20,8 @@ export default function CartModal() {
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
   const total = getTotal();
 
+  console.log(cart);
+
   const handleViewBag = () => {
     closeModal();
     router.push("/cart");

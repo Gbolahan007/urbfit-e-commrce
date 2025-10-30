@@ -83,7 +83,7 @@ function DropdownMenu({ category }: DropdownMenuProps) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="fixed left-0 top-[4.7rem] w-full bg-white shadow-lg p-6 max-h-screen overflow-auto z-[999]"
+        className="fixed left-0 top-[4.7rem] w-full bg-white shadow-lg border border-red-600 p-6 mt-7 max-h-screen overflow-auto z-[999]"
       >
         <div className="flex justify-around gap-12 items-start mt-4 flex-wrap">
           {Object.entries(menuItems[category] || {}).map(([heading, items]) => (

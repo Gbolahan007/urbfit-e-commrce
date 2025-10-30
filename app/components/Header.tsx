@@ -28,6 +28,12 @@ type Position = {
 const categories = ["Men", "Kids", "Women", "Collection", "Brands"] as const;
 type Category = (typeof categories)[number];
 
+const off = [
+  "up to 20% off menswear!",
+  "40% off jacktes & boots!",
+  "20% off everything!",
+];
+
 const THRESHOLD = 50;
 const DELTA = 10;
 
@@ -78,6 +84,7 @@ function Header() {
     width: 0,
     opacity: 0,
   });
+  const [currentOffIndex, setCurrentOffIndex] = useState(0);
 
   const refs = useRef<(HTMLLIElement | null)[]>([]);
   const router = useRouter();
@@ -85,6 +92,14 @@ function Header() {
   const isHomePage = pathname === "/";
 
   const { showNav, isScrolled } = useHideOnScroll();
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentOffIndex((prevIndex) => (prevIndex + 1) % off.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const isTransparent = isHomePage && !isScrolled;
   const textColor = isTransparent ? "text-white" : "text-black";
@@ -96,9 +111,25 @@ function Header() {
       initial={{ y: 0 }}
       animate={{ y: showNav ? 0 : "-100%" }}
       transition={{ type: "spring", stiffness: 400, damping: 40 }}
-      className={`${tek.className} fixed top-0 left-0 z-50 w-full transition-all duration-300 ${bgColor}`}
+      className={`${tek.className} fixed top-0 left-0 z-50 w-full  transition-all duration-300 ${bgColor}`}
     >
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
+      {/* 🔥 Promo bar at the top */}
+      <div className="bg-black text-white text-center py-2 overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={currentOffIndex}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.5 }}
+            className="text-sm md:text-base uppercase tracking-wide"
+          >
+            {off[currentOffIndex]}
+          </motion.p>
+        </AnimatePresence>
+      </div>
+
+      <div className="container mx-auto flex items-center justify-between px-4 py-2">
         <Link href="/" passHref legacyBehavior>
           <a
             className={`${kau.className} text-2xl font-bold cursor-pointer ${textColor}`}
