@@ -151,7 +151,19 @@ export async function getBrands() {
     console.error("Error fetching brands:", error.message);
     throw new Error("Could not fetch product brands");
   }
+  console.log(data);
+  return data ?? [];
+}
+export async function getAllBrands() {
+  const supabase = createServerClient();
 
+  const { data, error } = await supabase.from("brand").select("*");
+
+  if (error) {
+    console.error("Error fetching brands:", error.message);
+    throw new Error("Could not fetch product brands");
+  }
+  console.log(data);
   return data ?? [];
 }
 
