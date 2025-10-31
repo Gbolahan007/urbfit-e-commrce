@@ -32,7 +32,6 @@ export async function getWomenCategory() {
   return data ?? [];
 }
 
-// ✅ Products
 export async function getProducts() {
   const supabase = createServerClient();
 
@@ -58,6 +57,22 @@ export async function getProductDetail(slug: string) {
   if (error) {
     console.error("Error fetching product detail:", error.message);
     throw new Error("Could not fetch product detail");
+  }
+
+  return data;
+}
+export async function getProductCategory(gender: string, category: string) {
+  const supabase = createServerClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("gender", gender)
+    .eq("category", category);
+
+  if (error) {
+    console.error("Error fetching products:", error.message);
+    throw new Error("Could not fetch products");
   }
 
   return data;

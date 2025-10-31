@@ -1,15 +1,28 @@
-import { getCategory, getMenProducts } from "../_lib/data-service";
+import {
+  getCategory,
+  getMenProducts,
+  getProducts,
+  getWomenProducts,
+} from "../_lib/data-service";
 import MenCollectionClient from "./MenCollectionClient";
 
-export const revalidate = 600; // Revalidate every 10 mins (ISR)
+export const revalidate = 600;
 
 export default async function Page() {
-  const [products, homeCategory] = await Promise.all([
-    getMenProducts(),
-    getCategory(),
-  ]);
+  const [menProducts, homeCategory, allProducts, womenProducts] =
+    await Promise.all([
+      getMenProducts(),
+      getCategory(),
+      getProducts(),
+      getWomenProducts(),
+    ]);
 
   return (
-    <MenCollectionClient products={products} homeCategory={homeCategory} />
+    <MenCollectionClient
+      products={menProducts}
+      homeCategory={homeCategory}
+      allProducts={allProducts}
+      womenProducts={womenProducts}
+    />
   );
 }

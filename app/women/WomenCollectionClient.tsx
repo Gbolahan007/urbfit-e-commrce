@@ -11,6 +11,7 @@ interface Category {
   name: string;
   slug: string;
   image_url: string | null;
+  gender: string;
 }
 
 interface Product {
@@ -25,9 +26,13 @@ interface Product {
 export default function WomenCollectionClient({
   womenCategory,
   products,
+  allProducts,
+  menProducts,
 }: {
   womenCategory: Category[];
   products: Product[];
+  allProducts: Product[];
+  menProducts: Product[];
 }) {
   const pathname = usePathname();
 
@@ -56,7 +61,7 @@ export default function WomenCollectionClient({
               : womenCategory.map((category) => (
                   <Link
                     key={category.id}
-                    href={`/collection/${category.slug}`}
+                    href={`/collection/${category.gender}/${category.slug}`}
                     className="flex-none"
                   >
                     <div className="relative w-64 h-80">
@@ -75,7 +80,11 @@ export default function WomenCollectionClient({
           </div>
         </div>
 
-        <FilterPage />
+        <FilterPage
+          products={menProducts}
+          womenProducts={products}
+          allProducts={allProducts}
+        />
 
         <div className="mt-8 mb-16">
           <ProductGrid products={products} isLoading={false} />

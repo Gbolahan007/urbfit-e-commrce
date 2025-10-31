@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./components/Header";
-import { Tektur } from "@next/font/google";
+import { Tektur } from "next/font/google";
 import ReactQueryProvider from "./(provider)/ReactQueryProvider";
 import { Footer } from "./components/Footer";
 import { CartModalProvider } from "./context/CartModalcontext";

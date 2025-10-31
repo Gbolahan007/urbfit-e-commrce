@@ -11,6 +11,7 @@ interface Category {
   name: string;
   slug: string;
   image: string | null;
+  gender: string;
 }
 
 interface Product {
@@ -21,13 +22,20 @@ interface Product {
   category: string;
   gender: string;
 }
+
+interface MenCollectionClientProps {
+  products: Product[];
+  homeCategory: Category[];
+  allProducts: Product[];
+  womenProducts: Product[];
+}
+
 export default function MenCollectionClient({
   products,
   homeCategory,
-}: {
-  products: Product[];
-  homeCategory: Category[];
-}) {
+  allProducts,
+  womenProducts,
+}: MenCollectionClientProps) {
   const pathname = usePathname();
 
   return (
@@ -55,7 +63,7 @@ export default function MenCollectionClient({
               : homeCategory.map((category) => (
                   <Link
                     key={category.id}
-                    href={`/collection/${category.slug}`}
+                    href={`/collection/${category.gender}/${category.slug}`}
                     className="flex-none"
                   >
                     <div className="relative w-64 h-80">
@@ -74,7 +82,11 @@ export default function MenCollectionClient({
           </div>
         </div>
 
-        <FilterPage />
+        <FilterPage
+          allProducts={allProducts}
+          products={products}
+          womenProducts={womenProducts}
+        />
 
         {/* Products */}
         <div className="mt-8 mb-16">

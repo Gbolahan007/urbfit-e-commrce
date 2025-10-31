@@ -1,22 +1,43 @@
 "use client";
 
-import { useState } from "react";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useMenProducts } from "@/app/queries/useMenProducts";
-import { useWomenProducts } from "@/app/queries/useWomenProducts";
-import { useProducts } from "@/app/queries/useproducts";
+import { useState } from "react";
 
-export default function FilterPage() {
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  price: number;
+  category: string;
+  gender: string;
+}
+
+interface FilterPageProps {
+  allProducts: Product[];
+  products: Product[];
+  womenProducts: Product[];
+}
+
+export default function FilterPage({
+  allProducts,
+  products: menProducts,
+  womenProducts,
+}: FilterPageProps) {
   const [showAllFilters, setShowAllFilters] = useState(false);
   const pathname = usePathname();
-  const { products: menProducts } = useMenProducts();
-  const { products: womenProducts } = useWomenProducts();
-  const { products: totalProducts } = useProducts();
 
   const isWomenPage = pathname?.toLowerCase().includes("/women");
   const isMenPage = pathname?.toLowerCase().includes("/men");
   const isCollectionPage = pathname?.toLowerCase().includes("/collection");
+
+  const count = isMenPage
+    ? menProducts?.length
+    : isWomenPage
+    ? womenProducts?.length
+    : isCollectionPage
+    ? allProducts?.length
+    : 0;
 
   return (
     <div className="text-black flex items-center justify-center py-12 bg-white">
@@ -34,15 +55,7 @@ export default function FilterPage() {
                 htmlFor="new-in"
                 className="text-sm font-medium leading-none"
               >
-                New In (
-                {isMenPage
-                  ? menProducts?.length
-                  : isWomenPage
-                  ? womenProducts?.length
-                  : isCollectionPage
-                  ? totalProducts?.length
-                  : 0}
-                )
+                New In ({count})
               </label>
             </div>
 
