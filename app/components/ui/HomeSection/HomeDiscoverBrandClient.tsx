@@ -1,14 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 interface Brand {
   id: string;
   name: string;
   slug: string;
-  image: string | null;
+  image: string;
 }
 
 export default function HomeDiscoverBrandClient({
@@ -16,6 +16,7 @@ export default function HomeDiscoverBrandClient({
 }: {
   brands: Brand[];
 }) {
+  console.log(brands);
   return (
     <div>
       {/* Header */}
@@ -32,13 +33,13 @@ export default function HomeDiscoverBrandClient({
       {/* Horizontal scroll brand links */}
       <div className="mx-auto max-w-6xl px-4 pb-8">
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          {brands?.map((brand) => (
+          {brands?.slice(0, 10).map((brand) => (
             <Link
-              key={brand.id}
-              href={`/brands/${brand.slug}`}
+              key={brand?.id}
+              href={`/brands/${brand?.slug}`}
               className="flex-shrink-0 border border-black flex items-center justify-center uppercase font-medium text-center px-4 py-2 hover:bg-black hover:text-white transition-colors"
             >
-              {brand.name}
+              {brand?.name}
             </Link>
           ))}
         </div>
@@ -56,16 +57,13 @@ export default function HomeDiscoverBrandClient({
               viewport={{ amount: 0.3, once: true }}
             >
               <Link
-                href={`/brands/${brand.slug}`}
+                href={`/brands/${brand?.slug}`}
                 className="group block overflow-hidden hover:shadow-2xl transition-all duration-300"
               >
                 <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
                   <Image
-                    src={
-                      brand.image ||
-                      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=600&fit=crop"
-                    }
-                    alt={brand.name}
+                    src={brand?.image || "/placeholder.png"}
+                    alt={brand?.name || "Brand"}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                     sizes="(max-width: 1024px) 100vw,
@@ -76,7 +74,7 @@ export default function HomeDiscoverBrandClient({
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-black/40 transition-colors duration-300" />
                   <div className="absolute bottom-6 left-6 right-6">
                     <h3 className="text-white font-bold text-xl lg:text-2xl leading-tight drop-shadow-2xl transform group-hover:translate-y-[-4px] transition-transform duration-300">
-                      {brand.name}
+                      {brand?.name}
                     </h3>
                   </div>
                 </div>

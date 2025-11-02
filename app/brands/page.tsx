@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllBrands } from "../_lib/data-service";
+import { getBrands } from "../_lib/data-service";
 
 interface Brand {
   id: string;
@@ -9,10 +9,9 @@ interface Brand {
 }
 
 export default async function BrandsPage() {
-  const brands: Brand[] = await getAllBrands();
+  const brands: Brand[] = await getBrands();
 
-  // Group brands by first letter
-  const groupedBrands = brands.reduce((acc, brand) => {
+  const groupedBrands = brands?.reduce((acc, brand) => {
     const firstLetter = brand.name.charAt(0).toUpperCase();
     if (!acc[firstLetter]) {
       acc[firstLetter] = [];
