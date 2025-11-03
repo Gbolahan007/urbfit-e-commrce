@@ -6,7 +6,9 @@ import {
 } from "../_lib/data-service";
 import MenCollectionClient from "./MenCollectionClient";
 
-export const revalidate = 600;
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function Page() {
   const [menProducts, homeCategory, allProducts, womenProducts] =

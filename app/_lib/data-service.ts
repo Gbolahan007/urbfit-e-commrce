@@ -48,7 +48,6 @@ export async function getProducts() {
 export async function getProductsByBrand(brandSlug: string) {
   const supabase = createServerClient();
 
-  // 1️⃣ Fetch brand details by slug
   const { data: brand, error: brandError } = await supabase
     .from("brands")
     .select("*")
@@ -63,8 +62,6 @@ export async function getProductsByBrand(brandSlug: string) {
   if (!brand) {
     throw new Error("Brand not found");
   }
-
-  // 2️⃣ Fetch all products whose products.brands === brand.name
   const { data: products, error: productsError } = await supabase
     .from("products")
     .select("*")
@@ -75,7 +72,6 @@ export async function getProductsByBrand(brandSlug: string) {
     throw new Error("Could not fetch products for this brand");
   }
 
-  // 3️⃣ Fetch all brands with the same slug (e.g. all Adidas entries)
   const { data: relatedBrands, error: relatedBrandsError } = await supabase
     .from("brands")
     .select("*")
@@ -203,7 +199,6 @@ export async function getBrands() {
     console.error("Error fetching brands:", error.message);
     throw new Error("Could not fetch product brands");
   }
-  console.log(data);
   return data ?? [];
 }
 

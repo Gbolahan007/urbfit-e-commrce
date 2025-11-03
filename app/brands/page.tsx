@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getBrands } from "../_lib/data-service";
+import { unstable_noStore } from "next/cache";
 
 interface Brand {
   id: string;
@@ -8,7 +9,13 @@ interface Brand {
   product_count?: number;
 }
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export default async function BrandsPage() {
+  unstable_noStore();
+
   const brands: Brand[] = await getBrands();
 
   const groupedBrands = brands?.reduce((acc, brand) => {
@@ -20,7 +27,6 @@ export default async function BrandsPage() {
     return acc;
   }, {} as Record<string, Brand[]>);
 
-  // Sort brands within each letter group
   Object.keys(groupedBrands).forEach((letter) => {
     groupedBrands[letter].sort((a, b) => a.name.localeCompare(b.name));
   });

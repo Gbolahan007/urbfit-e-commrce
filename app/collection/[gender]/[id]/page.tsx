@@ -18,6 +18,10 @@ interface StarRatingProps {
   rating?: number;
 }
 
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 async function page({ params }: PageProps) {
   const category = await getProductCategory(params.gender, params.id);
 

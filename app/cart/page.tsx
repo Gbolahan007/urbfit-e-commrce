@@ -4,12 +4,14 @@ import { useState, useEffect } from "react";
 import { ChevronLeft, Minus, Plus, Trash2, Heart } from "lucide-react";
 import { useCartStore } from "./store";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
   const [promoCode, setPromoCode] = useState("");
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
 
-  // ✅ Prevent hydration mismatch
+  // Prevent hydration mismatch
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -42,7 +44,10 @@ export default function CartPage() {
             </p>
           </div>
 
-          <button className="flex items-center text-black hover:text-gray-700 text-sm self-start sm:self-auto">
+          <button
+            onClick={() => router.back()}
+            className="flex items-center text-black hover:text-gray-700 text-sm self-start sm:self-auto"
+          >
             <ChevronLeft className="w-4 h-4 mr-1" />
             Shop More
           </button>

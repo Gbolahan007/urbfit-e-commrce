@@ -17,6 +17,7 @@ import {
 import ProductAccordion from "@/app/components/ui/products/ProductAccordion";
 import { useCartStore } from "@/app/cart/store";
 import { useCartModal } from "@/app/context/CartModalcontext";
+import Link from "next/link";
 
 interface Product {
   id: string;
@@ -102,9 +103,12 @@ export default function ProductDetailClient({ product }: { product: Product }) {
             </li>
             <li className="text-gray-400">›</li>
             <li>
-              <a href="/jumpers-cardigans" className="hover:underline">
+              <Link
+                href={`/collection/men/${product.category}`}
+                className="hover:underline"
+              >
                 {product.category}
-              </a>
+              </Link>
             </li>
             <li className="text-gray-400">›</li>
             <li className="text-gray-600 truncate max-w-md">{product.name}</li>

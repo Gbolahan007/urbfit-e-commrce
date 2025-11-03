@@ -1,6 +1,11 @@
 import { getProductsByBrand } from "@/app/_lib/data-service";
 import ProductBrandGrid from "@/app/components/ui/ProductBrandGrid";
 
+import { unstable_noStore } from "next/cache";
+
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 interface BrandPageProps {
   params: {
     id: string;
@@ -8,11 +13,16 @@ interface BrandPageProps {
 }
 
 export default async function BrandPage({ params }: BrandPageProps) {
+  unstable_noStore();
+
   const { brand, products, count } = await getProductsByBrand(params.id);
   console.log(params);
-
+  const productsWithBrand = products.map((product) => ({
+    ...product,
+    brand: { ...brand },
+  }));
   return (
-    <div className="container mx-auto px-4 py-8 bg-white text-black mt-24">
+    <div className="container mx-auto px-4 py-8 bg-white text-black pt-28">
       {/* Brand Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">{brand.name}</h1>
@@ -51,7 +61,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
 
       {/* Product Grid */}
       {products.length > 0 ? (
-        <ProductBrandGrid products={products} />
+        <ProductBrandGrid products={productsWithBrand} />
       ) : (
         <p className="text-center text-gray-500 py-12">
           No products found for this brand

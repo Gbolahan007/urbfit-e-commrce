@@ -39,8 +39,6 @@ const menuItems = {
       "Joules",
       "Boden",
       "Next",
-      "H&M",
-      "Zara",
       "Boohoo",
       "ASOS",
     ],
@@ -54,7 +52,6 @@ const menuItems = {
       "Ralph Lauren",
       "Superdry",
       "Off-White",
-      "Burberry",
     ],
     "Sport Brands": [
       "Nike",
@@ -64,14 +61,7 @@ const menuItems = {
       "New Balance",
       "Vans",
     ],
-    "Top Beauty Brands": [
-      "Tom Ford",
-      "The Ordinary",
-      "Clinique",
-      "Dior",
-      "Charlotte Tilbury",
-      "Fenty Beauty",
-    ],
+    "Top Beauty Brands": ["Dior"],
   },
 };
 
