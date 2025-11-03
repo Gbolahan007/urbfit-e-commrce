@@ -46,7 +46,7 @@ export default function HomeLogoDisplay() {
         {duplicatedBrands.map((brand, i) => (
           <Link
             key={`${brand.id}-${i}`}
-            href={`/shop/${brand.slug}`}
+            href={`/brands/${brand.slug}`}
             className="relative flex-shrink-0 w-32 h-32 flex items-center justify-center"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
