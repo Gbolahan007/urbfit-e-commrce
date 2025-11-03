@@ -230,3 +230,23 @@ export async function getRelatedProducts(category: string, slug: string) {
 
   return data ?? [];
 }
+
+export async function getProductsByBrandId(category: string) {
+  const supabase = createServerClient();
+  console.log(category);
+  const { data: products, error: productError } = await supabase
+    .from("products")
+    .select("*")
+    .eq("category", category);
+
+  if (productError) {
+    console.error("Error fetching products:", productError.message);
+    throw new Error("Could not fetch products details");
+  }
+
+  if (!products) {
+    throw new Error("products not found");
+  }
+
+  return products ?? [];
+}

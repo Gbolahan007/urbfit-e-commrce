@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, ShoppingCart } from "lucide-react";
-import FilterPage from "../components/ui/FilterPage";
-import { useCartStore } from "../cart/store";
-import { useCartModal } from "../context/CartModalcontext";
+import { useCartStore } from "@/app/cart/store";
+import { useCartModal } from "@/app/context/CartModalcontext";
 
 type Product = {
   id: number;
@@ -18,13 +17,13 @@ type Product = {
   image2?: string;
   category: string;
   gender: "men" | "women" | "kids" | "sale";
-  type?: string;
+  brand: string;
 };
 
-export default function ProductCollection({
-  products,
+export default function ProductBrandCollection({
+  categoryData,
 }: {
-  products: Product[];
+  categoryData: Product[];
 }) {
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
@@ -51,54 +50,22 @@ export default function ProductCollection({
     openModal();
   };
 
-  if (!products || products.length === 0) {
+  if (!categoryData || categoryData.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg font-semibold">No products found.</p>
+        <p className="text-lg font-semibold">
+          No products found for this brand.
+        </p>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-white py-28">
-      {/* Header */}
-      <header className="border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-4xl font-extrabold text-center tracking-tight mb-8 text-gray-900">
-            URBFIT CLOTHING
-          </h1>
-          <div className="flex sm:justify-center gap-4 overflow-auto whitespace-nowrap text-black">
-            {[
-              { text: "SHOP MEN", path: "/men" },
-              { text: "SHOP WOMEN", path: "/women" },
-              { text: "SHOP KIDS", path: "/kids" },
-              { text: "SHOP SALE", path: "/sale" },
-            ].map(({ text, path }) => (
-              <Link
-                key={text}
-                href={path}
-                className="px-8 py-3 border-2 border-black font-semibold hover:bg-black hover:text-white transition-all duration-300 hover:shadow-lg"
-              >
-                {text}
-              </Link>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      <FilterPage
-        allProducts={products.map((p) => ({
-          ...p,
-          id: String(p.id),
-        }))}
-        products={[]}
-        womenProducts={[]}
-      />
-
       {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product, index) => (
+          {categoryData.map((product, index) => (
             <div
               key={product.id}
               className="group bg-white hover:border border-black hover:-translate-y-2 transition-all duration-300"
@@ -110,6 +77,7 @@ export default function ProductCollection({
                 onMouseEnter={() => setHoveredProduct(product.id)}
                 onMouseLeave={() => setHoveredProduct(null)}
               >
+                {/* Main Image */}
                 <div
                   className={`absolute inset-0 transition-opacity duration-500 ${
                     hoveredProduct === product.id && product.image2
@@ -127,6 +95,7 @@ export default function ProductCollection({
                   />
                 </div>
 
+                {/* Hover Image */}
                 {product.image2 && (
                   <div
                     className={`absolute inset-0 transition-opacity duration-500 ${
@@ -178,7 +147,7 @@ export default function ProductCollection({
               {/* Product Info */}
               <div className="space-y-1 px-1">
                 <p className="text-xs text-gray-500 uppercase tracking-wide">
-                  {product.gender}&apos;s {product.category}
+                  {product.brand} • {product.gender}&apos;s {product.category}
                 </p>
                 <Link
                   href={`/${product.gender}/${product.slug}`}

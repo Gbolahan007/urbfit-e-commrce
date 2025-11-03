@@ -43,7 +43,7 @@ export default function ShopByCategoryClient({
             {homeCategory.map((category, index) => (
               <Link
                 key={index}
-                href={`/men/${category.slug}`}
+                href={`/shop/${category.slug}`}
                 className="group cursor-pointer flex-shrink-0 block"
               >
                 <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 mb-4">
