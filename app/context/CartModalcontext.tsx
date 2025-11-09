@@ -7,6 +7,8 @@ interface CartModalContextType {
   openModal: () => void;
   closeModal: () => void;
   toggleModal: () => void;
+  selectedColor: string | undefined;
+  setSelectedColor: (color: string | undefined) => void;
 }
 
 const CartModalContext = createContext<CartModalContextType | undefined>(
@@ -15,6 +17,9 @@ const CartModalContext = createContext<CartModalContextType | undefined>(
 
 export function CartModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState<string | undefined>(
+    undefined
+  );
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -22,7 +27,14 @@ export function CartModalProvider({ children }: { children: ReactNode }) {
 
   return (
     <CartModalContext.Provider
-      value={{ isOpen, openModal, closeModal, toggleModal }}
+      value={{
+        isOpen,
+        openModal,
+        closeModal,
+        toggleModal,
+        selectedColor,
+        setSelectedColor,
+      }}
     >
       {children}
     </CartModalContext.Provider>

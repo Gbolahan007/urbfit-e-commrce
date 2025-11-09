@@ -15,6 +15,7 @@ interface ProductAccordionProps {
 }
 
 export default function ProductAccordion({ product }: ProductAccordionProps) {
+  console.log();
   const [openSection, setOpenSection] = useState<string | null>(null);
 
   const toggleSection = (section: string) => {

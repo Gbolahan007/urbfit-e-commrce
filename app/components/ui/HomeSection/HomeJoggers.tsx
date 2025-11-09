@@ -6,7 +6,7 @@ export default function HomeJoggers() {
     <div>
       <div className="relative w-full h-[60vh] sm:h-[70vh] lg:h-[80vh] overflow-hidden">
         <Link
-          href="/trousers"
+          href="/shop/trousers"
           className="block w-full h-full group cursor-pointer"
         >
           <div className="relative w-full h-full">

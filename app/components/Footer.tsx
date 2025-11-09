@@ -69,19 +69,19 @@ export function Footer() {
                 New Arrivals
               </Link>
               <Link
-                href="/collection/men"
+                href="/men"
                 className="text-sm hover:text-gray-400 transition-colors"
               >
                 Men&apos;s Collection
               </Link>
               <Link
-                href="/collection/women"
+                href="/women"
                 className="text-sm hover:text-gray-400 transition-colors"
               >
                 Women&apos;s Collection
               </Link>
               <Link
-                href="/collection/accessories"
+                href="/shop/accessories"
                 className="text-sm hover:text-gray-400 transition-colors"
               >
                 Accessories

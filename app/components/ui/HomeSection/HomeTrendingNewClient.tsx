@@ -47,7 +47,7 @@ export default function HomeTrendingNewClient({
               viewport={{ amount: 0.3, once: true }}
             >
               <Link
-                href={`/collection/men/${item.slug}`}
+                href={`/${item.gender}/${item.slug}`}
                 className="group block overflow-hidden hover:shadow-2xl transition-all duration-300"
               >
                 <div className="relative w-full aspect-square overflow-hidden bg-gray-100">

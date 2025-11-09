@@ -70,11 +70,8 @@ async function page({ params }: PageProps) {
           <FilterButton label="Style" />
           <FilterButton label="Size" />
           <FilterButton label="Colour" />
-          <FilterButton label="Body Fit" />
           <FilterButton label="Brands" />
-          <button className="text-gray-700 underline font-medium hover:text-gray-900">
-            Show more filters
-          </button>
+
           <div className="ml-auto flex items-center gap-3">
             <span className="text-gray-700 font-medium">Sort: Relevance</span>
             <ChevronDown className="w-4 h-4 text-gray-600" />

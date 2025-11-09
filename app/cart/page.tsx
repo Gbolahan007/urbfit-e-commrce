@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronLeft, Minus, Plus, Trash2, Heart } from "lucide-react";
+import { ChevronLeft, Minus, Plus, Trash2, Heart, Apple } from "lucide-react";
 import { useCartStore } from "./store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -26,7 +26,6 @@ export default function CartPage() {
 
   //  Calculate totals
   const subtotal = getTotal();
-  const deliveryCost = 4.95;
   const total = subtotal;
 
   return (
@@ -235,7 +234,10 @@ export default function CartPage() {
 
             {/* Bottom Shop More Link */}
             {cart.length > 0 && (
-              <button className="flex items-center text-black hover:text-gray-700 mt-2 sm:mt-4 text-sm">
+              <button
+                onClick={() => router.back()}
+                className="flex items-center text-black hover:text-gray-700 mt-2 sm:mt-4 text-sm"
+              >
                 <ChevronLeft className="w-4 h-4 mr-1" />
                 Shop More
               </button>
@@ -256,9 +258,6 @@ export default function CartPage() {
                       £{total.toFixed(2)}
                     </span>
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-600">
-                    Excl. delivery (£{deliveryCost.toFixed(2)})
-                  </p>
                 </div>
 
                 {/* Checkout Button */}
@@ -291,9 +290,11 @@ export default function CartPage() {
                 </div>
 
                 {/* Apple Pay Button */}
-                <button className="w-full bg-black text-white py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-gray-900 transition-colors flex items-center justify-center gap-2 text-sm sm:text-base">
-                  Buy with <span className="text-lg sm:text-xl">&#63743;</span>{" "}
-                  Pay
+                <button className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all flex items-center justify-center gap-2 text-base sm:text-lg shadow-sm active:scale-[0.98]">
+                  <span className="flex items-center gap-1">
+                    <Apple className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <span className="font-medium tracking-tight">Pay</span>
+                  </span>
                 </button>
               </div>
             </div>

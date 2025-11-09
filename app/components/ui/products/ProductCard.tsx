@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
@@ -10,6 +11,7 @@ interface ProductCardProps {
     name: string;
     brand?: string;
     image: string;
+    image2?: string;
     price: number;
     slug?: string;
     gender: string;
@@ -17,23 +19,50 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
   return (
-    <div className="group  relative flex flex-col">
+    <div className="group relative flex flex-col">
       {/* Product Image Container */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-neutral-100">
+      <div
+        className="relative aspect-[3/4] overflow-hidden bg-neutral-100"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <Link href={`/${product.gender}/${product.slug || product.id}`}>
-          <Image
-            src={product.image || "/placeholder.svg"}
-            alt={product.name}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          />
+          <div
+            className={`absolute inset-0 transition-opacity duration-500 ${
+              isHovered && product.image2 ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            <Image
+              src={product.image || "/placeholder.svg"}
+              alt={product.name}
+              fill
+              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            />
+          </div>
+
+          {product.image2 && (
+            <div
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                isHovered ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Image
+                src={product.image2}
+                alt={product.name}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              />
+            </div>
+          )}
         </Link>
 
         {/* Wishlist Button */}
         <button
-          className="absolute right-3 top-3 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+          className="absolute right-3 top-3 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-sm hover:scale-110 transition-transform z-10"
           aria-label="Add to wishlist"
         >
           <Heart className="h-5 w-5 text-gray-800" />
@@ -51,7 +80,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Product Name */}
         <Link
-          href={`/product/${product.slug || product.id}`}
+          href={`/${product.gender}/${product.slug || product.id}`}
           className="text-sm text-gray-800 hover:underline line-clamp-2"
         >
           {product.name}

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import FilterPage from "@/app/components/ui/FilterPage";
 import { ProductGrid } from "@/app/components/ui/products/ProductGrid";
+import { useCartModal } from "../context/CartModalcontext";
+import { useFilteredProducts } from "../components/ui/products/useFilteredProducts";
 
 interface Category {
   id: string;
@@ -37,6 +39,31 @@ export default function MenCollectionClient({
   womenProducts,
 }: MenCollectionClientProps) {
   const pathname = usePathname();
+  const { selectedColor, setSelectedColor } = useCartModal();
+
+  const getCurrentCategory = () => {
+    if (pathname?.toLowerCase().includes("/women")) return "women";
+    if (pathname?.toLowerCase().includes("/men")) return "men";
+    if (pathname?.toLowerCase().includes("/kids")) return "kids";
+    if (pathname?.toLowerCase().includes("/sale")) return "sale";
+    return "collection";
+  };
+
+  const category = getCurrentCategory();
+
+  // 🧠 Filter products based on selectedColor + category
+  const { filteredProducts, isLoading } = useFilteredProducts(
+    category,
+    selectedColor,
+    products
+  );
+
+  // Use filtered products for display
+  const displayProducts = filteredProducts;
+
+  const handleColorFilter = (color: string | undefined) => {
+    setSelectedColor(color);
+  };
 
   return (
     <div className="bg-white border-2 pt-28">
@@ -82,15 +109,31 @@ export default function MenCollectionClient({
           </div>
         </div>
 
+        {/* Filters */}
         <FilterPage
           allProducts={allProducts}
           products={products}
           womenProducts={womenProducts}
+          onColorFilter={handleColorFilter}
+          selectedColor={selectedColor}
+          isLoading={isLoading}
         />
 
         {/* Products */}
         <div className="mt-8 mb-16">
-          <ProductGrid products={products} isLoading={false} />
+          {isLoading ? (
+            <div className="flex justify-center py-10 text-gray-500">
+              Loading products...
+            </div>
+          ) : displayProducts.length === 0 ? (
+            <div className="flex justify-center py-10 text-gray-600">
+              {selectedColor
+                ? `No products found with color: ${selectedColor}`
+                : "No products found."}
+            </div>
+          ) : (
+            <ProductGrid products={displayProducts} isLoading={false} />
+          )}
         </div>
       </div>
     </div>

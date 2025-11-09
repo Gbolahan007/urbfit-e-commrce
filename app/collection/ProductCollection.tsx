@@ -4,32 +4,61 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, ShoppingCart } from "lucide-react";
-import FilterPage from "../components/ui/FilterPage";
 import { useCartStore } from "../cart/store";
 import { useCartModal } from "../context/CartModalcontext";
+import { usePathname } from "next/navigation";
+import FilterPage from "../components/ui/FilterPage";
+import { useFilteredProducts } from "../components/ui/products/useFilteredProducts";
 
-type Product = {
+export interface Product {
   id: number;
   name: string;
   slug: string;
   description: string;
   price: number;
   image: string;
-  image2?: string;
+  image2?: string | null;
   category: string;
+  category_id?: number;
   gender: "men" | "women" | "kids" | "sale";
-  type?: string;
-};
+  brands?: string;
+  colour?: string | null;
+  is_top_picks?: boolean | null;
+  is_trending?: boolean | null;
+  created_at?: string;
+}
 
 export default function ProductCollection({
-  products,
+  products: initialProducts,
 }: {
   products: Product[];
 }) {
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null);
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
+
   const addItem = useCartStore((state) => state.addItem);
-  const { openModal } = useCartModal();
+  const { openModal, selectedColor, setSelectedColor } = useCartModal();
+  const pathname = usePathname();
+
+  const getCurrentCategory = () => {
+    if (pathname?.toLowerCase().includes("/women")) return "women";
+    if (pathname?.toLowerCase().includes("/men")) return "men";
+    if (pathname?.toLowerCase().includes("/kids")) return "kids";
+    if (pathname?.toLowerCase().includes("/sale")) return "sale";
+    return "collection";
+  };
+
+  const category = getCurrentCategory();
+
+  //  Use client-side filtering hook
+  const { filteredProducts, isLoading } = useFilteredProducts(
+    category,
+    selectedColor,
+    initialProducts
+  );
+
+  //  Always use filteredProducts (it handles the logic internally)
+  const displayProducts = filteredProducts;
 
   const toggleFavorite = (productId: number) => {
     setFavorites((prev) => {
@@ -51,10 +80,18 @@ export default function ProductCollection({
     openModal();
   };
 
-  if (!products || products.length === 0) {
+  const handleColorFilter = (color: string | undefined) => {
+    setSelectedColor(color);
+  };
+
+  if (!displayProducts || displayProducts.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg font-semibold">No products found.</p>
+        <p className="text-lg font-semibold">
+          {selectedColor
+            ? `No products found with color: ${selectedColor}`
+            : "No products found."}
+        </p>
       </div>
     );
   }
@@ -87,18 +124,21 @@ export default function ProductCollection({
       </header>
 
       <FilterPage
-        allProducts={products.map((p) => ({
+        allProducts={initialProducts.map((p) => ({
           ...p,
           id: String(p.id),
         }))}
         products={[]}
         womenProducts={[]}
+        onColorFilter={handleColorFilter}
+        selectedColor={selectedColor}
+        isLoading={isLoading}
       />
 
       {/* Products Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
-          {products.map((product, index) => (
+          {displayProducts.map((product, index) => (
             <div
               key={product.id}
               className="group bg-white hover:border border-black hover:-translate-y-2 transition-all duration-300"

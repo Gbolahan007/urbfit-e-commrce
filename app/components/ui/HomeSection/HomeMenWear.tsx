@@ -5,10 +5,7 @@ export default function HomeMenWear() {
   return (
     <div>
       <div className="relative w-full h-[60vh] sm:h-[70vh] lg:h-[80vh] overflow-hidden">
-        <Link
-          href="/collection/men"
-          className="block w-full h-full group cursor-pointer"
-        >
+        <Link href="/men" className="block w-full h-full group cursor-pointer">
           <div className="relative w-full h-full ">
             <Image
               src="/Menswear.webp"

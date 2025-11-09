@@ -44,50 +44,20 @@ export async function getProducts() {
 
   return data ?? [];
 }
-
-export async function getProductsByBrand(brandSlug: string) {
+export async function getProductsByBrand(brand: string) {
   const supabase = createServerClient();
 
-  const { data: brand, error: brandError } = await supabase
-    .from("brands")
-    .select("*")
-    .ilike("slug", brandSlug)
-    .single();
-
-  if (brandError) {
-    console.error("Error fetching brand:", brandError.message);
-    throw new Error("Could not fetch brand details");
-  }
-
-  if (!brand) {
-    throw new Error("Brand not found");
-  }
-  const { data: products, error: productsError } = await supabase
+  const { data: products, error } = await supabase
     .from("products")
     .select("*")
-    .ilike("brands", brand.name);
+    .eq("brands", brand);
 
-  if (productsError) {
-    console.error("Error fetching products:", productsError.message);
+  if (error) {
+    console.error("Error fetching products:", error.message);
     throw new Error("Could not fetch products for this brand");
   }
 
-  const { data: relatedBrands, error: relatedBrandsError } = await supabase
-    .from("brands")
-    .select("*")
-    .ilike("slug", brand.slug);
-
-  if (relatedBrandsError) {
-    console.error("Error fetching related brands:", relatedBrandsError.message);
-    throw new Error("Could not fetch related brands");
-  }
-
-  return {
-    brand,
-    products: products ?? [],
-    relatedBrands: relatedBrands ?? [],
-    count: products?.length ?? 0,
-  };
+  return products ?? [];
 }
 
 export async function getProductDetail(slug: string) {
@@ -233,7 +203,6 @@ export async function getRelatedProducts(category: string, slug: string) {
 
 export async function getProductsByBrandId(category: string) {
   const supabase = createServerClient();
-  console.log(category);
   const { data: products, error: productError } = await supabase
     .from("products")
     .select("*")
@@ -249,4 +218,27 @@ export async function getProductsByBrandId(category: string) {
   }
 
   return products ?? [];
+}
+
+export async function getFilteredProducts(category?: string, color?: string) {
+  const supabase = createServerClient();
+
+  let query = supabase.from("products").select("*");
+
+  if (category && category !== "collection") {
+    query = query.eq("gender", category);
+  }
+
+  if (color) {
+    query = query.ilike("colour", color);
+  }
+
+  const { data, error } = await query;
+  console.log(data);
+  if (error) {
+    console.error("Error fetching products:", error.message);
+    throw new Error("Could not fetch products");
+  }
+
+  return data ?? [];
 }
