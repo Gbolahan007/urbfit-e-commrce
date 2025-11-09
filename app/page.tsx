@@ -6,6 +6,7 @@ import DiscoverBrand from "./components/ui/HomeSection/DiscoverBrand";
 import HomeMenWear from "./components/ui/HomeSection/HomeMenWear";
 import HomeLogoDisplay from "./components/ui/HomeSection/HomeLogoDisplay";
 import HeroVideo from "./components/ui/HomeSection/HeroVideo";
+import HomeStyle from "./components/ui/HomeSection/HomeStyle";
 
 export const dynamic = "force-dynamic";
 
@@ -16,13 +17,16 @@ export default async function HomePage() {
       <div className="bg-[#f7f6f3]">
         <ShopByCategory />
         <div className="mt-2">
-          <TopPicks />
+          <HomeStyle />
         </div>
         <div className="mt-2">
           <TrendingNew />
         </div>
         <div className="mt-36">
           <HomeJoggers />
+        </div>
+        <div className="mt-5">
+          <TopPicks />
         </div>
         <div className="mt-5">
           <DiscoverBrand />

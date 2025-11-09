@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getRelatedProducts } from "@/app/_lib/data-service";
+import { unstable_noStore } from "next/cache";
 
 interface Product {
   id: string;
@@ -13,7 +14,9 @@ interface Product {
   brand?: string;
 }
 
-export const revalidate = 300;
+export const revalidate = 0;
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export default async function RelatedProducts({
   category,
@@ -22,6 +25,8 @@ export default async function RelatedProducts({
   category: string;
   slug: string;
 }) {
+  unstable_noStore();
+
   const relatedProducts = await getRelatedProducts(category, slug);
 
   if (!relatedProducts || relatedProducts.length === 0) {
@@ -36,7 +41,7 @@ export default async function RelatedProducts({
         </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-          {relatedProducts.map((product: Product) => (
+          {relatedProducts?.slice(0, 4).map((product: Product) => (
             <Link
               key={product.id}
               href={`/men/${product.slug}`}
