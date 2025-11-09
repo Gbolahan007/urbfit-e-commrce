@@ -51,7 +51,7 @@ export default function MenCollectionClient({
 
   const category = getCurrentCategory();
 
-  // 🧠 Filter products based on selectedColor + category
+  // Filter products based on selectedColor + category
   const { filteredProducts, isLoading } = useFilteredProducts(
     category,
     selectedColor,

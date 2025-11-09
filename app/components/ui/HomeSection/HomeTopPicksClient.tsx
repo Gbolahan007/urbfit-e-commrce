@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type TopPick = {
   id: string;
@@ -43,6 +44,7 @@ export default function HomeTopPicksClient({
 
         {topPicks?.length > 0 ? (
           <div className="relative">
+            {/* Horizontal scroll */}
             <div
               className="flex gap-6 overflow-x-auto pb-4"
               style={{
@@ -58,14 +60,15 @@ export default function HomeTopPicksClient({
               `}</style>
 
               {topPicks.slice(0, 8).map((item, idx) => (
-                <div
+                <Link
                   key={item.id}
+                  href={`/${item.gender}/${item.slug}`}
                   className="flex-shrink-0 w-72 group cursor-pointer"
                   style={{
                     animation: `slideIn 0.5s ease-out ${idx * 0.1}s both`,
                   }}
                 >
-                  <div className="bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+                  <div className="bg-white overflow-hidden transition-all duration-300 transform hover:-translate-y-2">
                     {/* Image Container */}
                     <div className="relative h-80 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
                       <Image
@@ -96,7 +99,7 @@ export default function HomeTopPicksClient({
                     {/* Content */}
                     <div className="p-5">
                       <div className="flex items-start justify-between mb-3">
-                        <h3 className="font-semibold text-gray-900 text-lg line-clamp-2 flex-1 group-hover:text-grey-600 transition-colors">
+                        <h3 className="font-semibold text-gray-900 text-lg line-clamp-2 flex-1 group-hover:text-gray-600 transition-colors">
                           {item.name}
                         </h3>
                       </div>
@@ -111,7 +114,7 @@ export default function HomeTopPicksClient({
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
 
