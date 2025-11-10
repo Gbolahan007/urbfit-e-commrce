@@ -46,7 +46,7 @@ export default function FilterPage({
     ? womenProducts?.length
     : isCollectionPage
     ? allProducts?.length
-    : 0;
+    : menProducts?.length;
 
   // Extract unique colors from products
   const availableColors = Array.from(

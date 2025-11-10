@@ -44,7 +44,6 @@ export default function HomeTopPicksClient({
 
         {topPicks?.length > 0 ? (
           <div className="relative">
-            {/* Horizontal scroll */}
             <div
               className="flex gap-6 overflow-x-auto pb-4"
               style={{

@@ -41,6 +41,7 @@ const menuItems = {
       "Next",
       "Boohoo",
       "ASOS",
+      "Levi's",
     ],
     "Top Designer Brands": [
       "Calvin Klein",

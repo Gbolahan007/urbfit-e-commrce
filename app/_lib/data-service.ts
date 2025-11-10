@@ -124,6 +124,21 @@ export async function getWomenProducts() {
 
   return data ?? [];
 }
+export async function getKidsProducts() {
+  const supabase = createServerClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("gender", "kids");
+
+  if (error) {
+    console.error("Error fetching kids products:", error.message);
+    throw new Error("Could not fetch products");
+  }
+
+  return data ?? [];
+}
 
 export async function getTopPicks() {
   const supabase = createServerClient();
