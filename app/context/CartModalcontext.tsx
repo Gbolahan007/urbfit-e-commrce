@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  type ReactNode,
+} from "react";
 
 interface CartModalContextType {
   isOpen: boolean;
@@ -9,6 +15,12 @@ interface CartModalContextType {
   toggleModal: () => void;
   selectedColor: string | undefined;
   setSelectedColor: (color: string | undefined) => void;
+  // Search functionality
+  search: string;
+  setSearch: (search: string) => void;
+  isDropdownOpen: boolean;
+  setIsDropdownOpen: (isOpen: boolean) => void;
+  wrapperRef: React.RefObject<HTMLDivElement> | null;
 }
 
 const CartModalContext = createContext<CartModalContextType | undefined>(
@@ -20,6 +32,9 @@ export function CartModalProvider({ children }: { children: ReactNode }) {
   const [selectedColor, setSelectedColor] = useState<string | undefined>(
     undefined
   );
+  const [search, setSearch] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
@@ -34,6 +49,11 @@ export function CartModalProvider({ children }: { children: ReactNode }) {
         toggleModal,
         selectedColor,
         setSelectedColor,
+        search,
+        setSearch,
+        isDropdownOpen,
+        setIsDropdownOpen,
+        wrapperRef,
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 import { createServerClient } from "./supabase";
+import { createClientBrowser } from "./supabaseClient";
 
 export async function getCategory() {
   const supabase = createServerClient();
@@ -255,5 +256,26 @@ export async function getFilteredProducts(category?: string, color?: string) {
     throw new Error("Could not fetch products");
   }
 
+  return data ?? [];
+}
+
+export async function fetchProductsBySearch(search?: string) {
+  const supabase = createClientBrowser();
+
+  if (!search || search.trim().length < 2) return [];
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .or(
+      `name.ilike.%${search.trim()}%,category.ilike.%${search.trim()}%,gender.ilike.%${search.trim()}%`
+    );
+
+  if (error) {
+    console.error("❌ Error fetching searched products:", error.message);
+    throw new Error("Could not fetch searched products");
+  }
+
+  console.log("✅ Search results:", data);
   return data ?? [];
 }

@@ -107,7 +107,7 @@ export default function HomeTopPicksClient({
                         <span className="text-2xl font-bold text-gray-900">
                           {formatCurrency(item.price)}
                         </span>
-                        <button className="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 duration-300">
+                        <button className="bg-black text-white px-4 py-2 text-sm font-medium transition-colors opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 duration-300">
                           View
                         </button>
                       </div>
@@ -118,7 +118,7 @@ export default function HomeTopPicksClient({
             </div>
 
             {/* Fade edges */}
-            <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+            <div className="" />
           </div>
         ) : (
           <div className="text-center py-20 bg-white rounded-2xl">

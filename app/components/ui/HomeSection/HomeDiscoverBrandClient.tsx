@@ -16,7 +16,6 @@ export default function HomeDiscoverBrandClient({
 }: {
   brands: Brand[];
 }) {
-  console.log(brands);
   return (
     <div>
       {/* Header */}
