@@ -7,6 +7,7 @@ import HomeMenWear from "./components/ui/HomeSection/HomeMenWear";
 import HomeLogoDisplay from "./components/ui/HomeSection/HomeLogoDisplay";
 import HeroVideo from "./components/ui/HomeSection/HeroVideo";
 import HomeStyle from "./components/ui/HomeSection/HomeStyle";
+import HomeSectionPicks from "./components/ui/HomeSection/HomeSectionPicks";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,9 @@ export default async function HomePage() {
         </div>
         <div className="mt-8">
           <HomeMenWear />
+        </div>
+        <div className="mt-8">
+          <HomeSectionPicks />
         </div>
         <div className="mt-8">
           <HomeLogoDisplay />

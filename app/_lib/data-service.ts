@@ -156,6 +156,21 @@ export async function getTopPicks() {
 
   return data ?? [];
 }
+export async function getHomePicks() {
+  const supabase = createServerClient();
+
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("is_top_picks", false);
+
+  if (error) {
+    console.error("Error fetching top picks:", error.message);
+    throw new Error("Could not fetch top picks products");
+  }
+
+  return data ?? [];
+}
 
 export async function getTrendingNew() {
   const supabase = createServerClient();
