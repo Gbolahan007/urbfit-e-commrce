@@ -5,11 +5,11 @@ export default async function HomeSectionPicks() {
   const homePicks = await getHomePicks();
 
   return (
-    <main className="min-h-screen">
+    <main className="sm:min-h-screen ">
       <section className="w-full py-12">
         <h2 className="text-center text-3xl font-bold mb-8">@URBFIT</h2>
         <HomeSectionPicksClient homePicks={homePicks} />
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 ">
           <p className="text-sm font-semibold">Follow Us</p>
         </div>
       </section>
