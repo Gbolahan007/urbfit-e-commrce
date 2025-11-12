@@ -45,7 +45,7 @@ export default function HomeTopPicksClient({
       y: 0,
       opacity: 1,
       duration: 0.6,
-      ease: "bounce.out",
+      ease: "power1.in",
       stagger: 0.6,
       scrollTrigger: {
         trigger: itemRefs.current[0], // first item triggers the animation

@@ -13,6 +13,12 @@ if (typeof window !== "undefined") {
 }
 
 export default function HomeLogoDisplay() {
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+
+  const [isPaused, setIsPaused] = useState(false);
+  const [email, setEmail] = useState("");
   const brands = [
     { id: 1, name: "Fatface", slug: "fatface" },
     { id: 2, name: "Fred Perry", slug: "fred-perry" },
@@ -26,14 +32,7 @@ export default function HomeLogoDisplay() {
     { id: 10, name: "Phase Eight", slug: "phase-eight" },
     { id: 11, name: "Skopes", slug: "skopes" },
   ];
-
   const duplicatedBrands = [...brands, ...brands];
-  const sliderRef = useRef<HTMLDivElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
-
-  const [isPaused, setIsPaused] = useState(false);
-  const [email, setEmail] = useState("");
 
   // GSAP Infinite Logo Scroll
   useEffect(() => {
@@ -55,18 +54,18 @@ export default function HomeLogoDisplay() {
     };
   }, []);
 
-  // Parallax ScrollTrigger Effect
+  // Footer Reveal ScrollTrigger Effect
   useEffect(() => {
     const container = containerRef.current;
 
     if (container) {
-      const parallaxAnimation = gsap.to(container, {
-        y: () => -container.offsetHeight,
+      const revealAnimation = gsap.to(container, {
+        y: "-100%",
         ease: "none",
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: () => `+=${container.offsetHeight * 0.2}`,
+          end: "bottom top",
           scrub: 1,
           pin: false,
           invalidateOnRefresh: true,
@@ -74,7 +73,7 @@ export default function HomeLogoDisplay() {
       });
 
       return () => {
-        parallaxAnimation.kill();
+        revealAnimation.kill();
         ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       };
     }
@@ -96,11 +95,10 @@ export default function HomeLogoDisplay() {
     <div
       ref={containerRef}
       className="w-full relative z-20 bg-[#f7f6f3] border-t border-neutral-200"
-      style={{ marginBottom: "-100vh" }}
     >
       {/* Delivery Details */}
       <div className="border-b border-neutral-300">
-        <div className="container mx-auto px-6 py-6 sm:py-12">
+        <div className="container mx-auto px-6 py-6 sm:py-7">
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Payment */}
             <div className="flex flex-col items-center text-center">

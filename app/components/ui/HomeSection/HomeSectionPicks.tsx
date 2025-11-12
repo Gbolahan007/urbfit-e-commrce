@@ -6,7 +6,7 @@ export default async function HomeSectionPicks() {
   const homePicks = await getHomePicks();
 
   return (
-    <main className="sm:min-h-screen ">
+    <main className="lg:min-h-screen">
       <section className="w-full py-12">
         <div
           className="text-center font-bold 

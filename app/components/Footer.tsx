@@ -148,7 +148,7 @@ export function Footer() {
         </div>
 
         {/* Brand Logo */}
-        <div className=" border-gray-800 pt-12">
+        <div className="  pt-12">
           <h2 className="text-7xl md:text-8xl lg:text-[12rem] font-black tracking-widest text-center">
             URBFIT
           </h2>

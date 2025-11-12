@@ -38,7 +38,7 @@ export default function ShopByCategoryClient({
       y: 0,
       opacity: 1,
       duration: 0.6,
-      ease: "bounce.in",
+      ease: "power1.in",
       stagger: 0.6,
       delay: 0.3,
       scrollTrigger: {

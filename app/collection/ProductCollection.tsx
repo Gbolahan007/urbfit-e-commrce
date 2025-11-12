@@ -232,6 +232,15 @@ export default function ProductCollection({
           ))}
         </div>
       </div>
+
+      <div className="mt-12 text-center">
+        <a
+          href="#"
+          className="inline-block px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+        >
+          Back to Top
+        </a>
+      </div>
     </div>
   );
 }

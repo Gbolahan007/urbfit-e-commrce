@@ -20,50 +20,44 @@ interface HomeSectionPicksProps {
 export default function HomeSectionPicksClient({
   homePicks,
 }: HomeSectionPicksProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
   const [isPaused, setIsPaused] = useState(false);
-  const animationRef = useRef<gsap.core.Tween | null>(null);
 
-  // Duplicate items for seamless infinite scrolling
+  // Duplicate items for seamless infinite scroll
   const duplicatedPicks = [...homePicks, ...homePicks];
 
+  // ✅ GSAP Infinite Scroll (same as HomeLogoDisplay)
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const slider = sliderRef.current;
+    if (!slider) return;
 
-    const startAnimation = () => {
-      animationRef.current?.kill();
+    const totalWidth = slider.scrollWidth / 2;
+    const tween = gsap.to(slider, {
+      x: `-${totalWidth}px`,
+      duration: 20,
+      ease: "linear",
+      repeat: -1,
+    });
 
-      animationRef.current = gsap.to(container, {
-        x: -container.scrollWidth / 2, // scroll half width
-        duration: 20,
-        ease: "none",
-        repeat: -1,
-        modifiers: {
-          x: gsap.utils.unitize(
-            (x) => parseFloat(x) % (container.scrollWidth / 2)
-          ),
-        },
-      });
-    };
+    tweenRef.current = tween;
 
-    if (!isPaused) {
-      startAnimation();
-    } else {
-      animationRef.current?.pause();
-    }
-
-    // Cleanup on unmount
     return () => {
-      animationRef.current?.kill();
+      tween.kill();
     };
-  }, [isPaused, homePicks]);
+  }, [homePicks]);
+
+  //  Pause on hover like in HomeLogoDisplay
+  useEffect(() => {
+    if (isPaused) tweenRef.current?.pause();
+    else tweenRef.current?.resume();
+  }, [isPaused]);
 
   return (
-    <div className="w-full overflow-hidden py-12">
+    <div className="w-full overflow-hidden py-12 border-t border-neutral-200">
       <div
-        ref={containerRef}
-        className="flex gap-1 items-center"
+        ref={sliderRef}
+        className="flex gap-4 items-center"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
       >
@@ -71,13 +65,13 @@ export default function HomeSectionPicksClient({
           <Link
             key={`${pick.id}-${i}`}
             href={`/${pick.gender}/${pick.slug}`}
-            className="relative flex-shrink-0 w-72 h-80 flex items-center justify-center"
+            className="relative flex-shrink-0 w-72 h-80 flex items-center justify-center overflow-hidden"
           >
             <Image
               src={pick.image || "/placeholder.svg"}
               alt={pick.title}
               fill
-              className="object-cover transition-all duration-300 hover:scale-105"
+              className="object-cover transition-transform duration-500 hover:scale-105"
             />
           </Link>
         ))}
