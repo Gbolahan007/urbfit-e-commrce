@@ -32,15 +32,13 @@ export default function HomeSectionPicksClient({
     if (!container) return;
 
     const startAnimation = () => {
-      // Kill previous animation if any
       animationRef.current?.kill();
 
-      // Start GSAP horizontal scroll animation
       animationRef.current = gsap.to(container, {
         x: -container.scrollWidth / 2, // scroll half width
-        duration: 20, // ⏩ faster (was 30)
+        duration: 20,
         ease: "none",
-        repeat: -1, //  infinite loop
+        repeat: -1,
         modifiers: {
           x: gsap.utils.unitize(
             (x) => parseFloat(x) % (container.scrollWidth / 2)

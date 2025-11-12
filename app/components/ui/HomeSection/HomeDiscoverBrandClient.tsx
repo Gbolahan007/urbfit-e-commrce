@@ -1,8 +1,14 @@
 "use client";
 
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface Brand {
   id: string;
@@ -16,6 +22,29 @@ export default function HomeDiscoverBrandClient({
 }: {
   brands: Brand[];
 }) {
+  const linkRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!brands?.length) return;
+
+    // Set initial state
+    gsap.set(linkRefs.current, { y: -50, opacity: 0 });
+
+    // Animate bounce from top
+    gsap.to(linkRefs.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "bounce.out",
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: linkRefs.current[0],
+        start: "top 80%",
+        toggleActions: "play none none none",
+      },
+    });
+  }, [brands]);
+
   return (
     <div>
       {/* Header */}
@@ -32,10 +61,13 @@ export default function HomeDiscoverBrandClient({
       {/* Horizontal scroll brand links */}
       <div className="mx-auto max-w-6xl px-4 pb-8">
         <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
-          {brands?.slice(0, 10).map((brand) => (
+          {brands?.slice(0, 10).map((brand, idx) => (
             <Link
               key={brand?.id}
               href={`/brands/${brand?.slug}`}
+              ref={(el) => {
+                linkRefs.current[idx] = el;
+              }}
               className="flex-shrink-0 border border-black flex items-center justify-center uppercase font-medium text-center px-4 py-2 hover:bg-black hover:text-white transition-colors"
             >
               {brand?.name}
@@ -46,15 +78,9 @@ export default function HomeDiscoverBrandClient({
 
       {/* Brand grid with images */}
       <div className="mx-auto max-w-6xl px-4 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
           {brands?.slice(0, 6).map((brand) => (
-            <motion.div
-              key={`brand-${brand.id}`}
-              initial={{ opacity: 0, y: 80 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              viewport={{ amount: 0.3, once: true }}
-            >
+            <div key={`brand-${brand.id}`}>
               <Link
                 href={`/brands/${brand?.slug}`}
                 className="group block overflow-hidden hover:shadow-2xl transition-all duration-300"
@@ -78,7 +104,7 @@ export default function HomeDiscoverBrandClient({
                   </div>
                 </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

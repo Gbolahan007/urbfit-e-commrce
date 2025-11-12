@@ -55,7 +55,7 @@ export default function HomeLogoDisplay() {
     };
   }, []);
 
-  // Parallax ScrollTrigger Effect - slides component UP to reveal footer underneath
+  // Parallax ScrollTrigger Effect
   useEffect(() => {
     const container = containerRef.current;
 
@@ -189,7 +189,7 @@ export default function HomeLogoDisplay() {
           <p className="text-neutral-600 mb-8 max-w-xl mx-auto">
             Be the first to know about new collections and exclusive offers.
           </p>
-          <div className="flex max-w-md mx-auto">
+          <div className="flex max-w-md mx-auto ">
             <input
               type="email"
               placeholder="Email"

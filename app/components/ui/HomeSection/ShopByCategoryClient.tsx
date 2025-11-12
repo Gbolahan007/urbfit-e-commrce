@@ -1,8 +1,17 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Register ScrollTrigger
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type Category = {
   name: string;
@@ -15,6 +24,31 @@ export default function ShopByCategoryClient({
 }: {
   homeCategory: Category[];
 }) {
+  const categoryRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  useEffect(() => {
+    // Set initial state - categories start above viewport
+    gsap.set(categoryRefs.current, {
+      y: -100,
+      opacity: 0,
+    });
+
+    // Animate each category dropping down with stagger
+    gsap.to(categoryRefs.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "bounce.in",
+      stagger: 0.6,
+      delay: 0.3,
+      scrollTrigger: {
+        trigger: categoryRefs.current[0],
+        start: "top 70%",
+        toggleActions: "play none none none",
+      },
+    });
+  }, [homeCategory]);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -44,6 +78,9 @@ export default function ShopByCategoryClient({
               <Link
                 key={index}
                 href={`/shop/${category.slug}`}
+                ref={(el) => {
+                  categoryRefs.current[index] = el;
+                }}
                 className="group cursor-pointer flex-shrink-0 block"
               >
                 <div className="bg-white rounded-2xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 mb-4">

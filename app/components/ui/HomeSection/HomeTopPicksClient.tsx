@@ -1,8 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type TopPick = {
   id: string;
@@ -28,6 +34,27 @@ export default function HomeTopPicksClient({
 }: {
   topPicks: TopPick[];
 }) {
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  useEffect(() => {
+    if (!topPicks?.length) return;
+
+    gsap.set(itemRefs.current, { y: -100, opacity: 0 });
+
+    gsap.to(itemRefs.current, {
+      y: 0,
+      opacity: 1,
+      duration: 0.6,
+      ease: "bounce.out",
+      stagger: 0.6,
+      scrollTrigger: {
+        trigger: itemRefs.current[0], // first item triggers the animation
+        start: "top 70%", // when it reaches 70% of viewport
+        toggleActions: "play none none none",
+      },
+    });
+  }, [topPicks]);
+
   return (
     <div className="w-full py-8">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6">
@@ -62,10 +89,10 @@ export default function HomeTopPicksClient({
                 <Link
                   key={item.id}
                   href={`/${item.gender}/${item.slug}`}
-                  className="flex-shrink-0 w-72 group cursor-pointer"
-                  style={{
-                    animation: `slideIn 0.5s ease-out ${idx * 0.1}s both`,
+                  ref={(el) => {
+                    itemRefs.current[idx] = el;
                   }}
+                  className="flex-shrink-0 w-72 group cursor-pointer"
                 >
                   <div className="bg-white overflow-hidden transition-all duration-300 transform hover:-translate-y-2">
                     {/* Image Container */}
@@ -116,9 +143,6 @@ export default function HomeTopPicksClient({
                 </Link>
               ))}
             </div>
-
-            {/* Fade edges */}
-            <div className="" />
           </div>
         ) : (
           <div className="text-center py-20 bg-white rounded-2xl">
