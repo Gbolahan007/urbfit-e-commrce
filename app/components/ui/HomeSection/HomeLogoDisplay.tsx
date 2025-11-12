@@ -187,19 +187,32 @@ export default function HomeLogoDisplay() {
           <p className="text-neutral-600 mb-8 max-w-xl mx-auto">
             Be the first to know about new collections and exclusive offers.
           </p>
-          <div className="flex max-w-md mx-auto ">
+          <div className="relative max-w-2xl mx-auto">
             <input
               type="email"
-              placeholder="Email"
+              placeholder=""
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-6 py-3 border border-neutral-300 focus:outline-none focus:border-neutral-800 transition-colors"
+              className="w-full px-8 py-5 bg-transparent border border-black rounded-full text-black placeholder:text-white/50 focus:outline-none focus:border-black/60 transition-colors"
             />
             <button
               onClick={handleSubmit}
-              className="px-8 py-3 bg-neutral-900 text-white font-semibold hover:bg-neutral-800 transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors group"
+              aria-label="Subscribe"
             >
-              Subscribe
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-6 h-6 text-black group-hover:translate-x-1 transition-transform"
+              >
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
