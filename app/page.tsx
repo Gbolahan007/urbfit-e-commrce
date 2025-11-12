@@ -17,13 +17,13 @@ export default async function HomePage() {
       <HeroVideo />
       <div className="bg-[#f7f6f3]">
         <ShopByCategory />
-        <div className="mt-2">
+        <div className="mt-2 overflow-x-hidden">
           <HomeStyle />
         </div>
-        <div className="mt-2">
+        <div className="mt-2 overflow-x-hidden">
           <TrendingNew />
         </div>
-        <div className="mt-36">
+        <div className="mt-36 overflow-x-hidden">
           <HomeJoggers />
         </div>
         <div className="mt-5">

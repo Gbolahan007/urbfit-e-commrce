@@ -11,7 +11,7 @@ export default function HeroVideo() {
   const router = useRouter();
 
   return (
-    <div className="relative h-screen w-full overflow-hidden">
+    <div className="relative h-screen w-full overflow-hidden overflow-x-hidden">
       <video
         className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${
           videoLoaded && !videoError ? "opacity-100" : ""
