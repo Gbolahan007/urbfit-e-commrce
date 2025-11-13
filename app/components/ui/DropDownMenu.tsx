@@ -16,19 +16,19 @@ const menuItems = {
       "Sneakers",
       "Gym & Training",
     ],
-    Clothing: ["T-Shirts", "Joggers", "Sweatshirts", "Shorts", "Swimwear"],
+    Clothing: ["T-Shirt", "Joggers", "Sweatshirts", "Shorts", "Swimwear"],
     Accessories: ["Caps", "Bags", "Socks"],
     Sport: ["Basketball", "Football", "Tennis"],
   },
   Women: {
     Shoes: ["Running Shoes", "Heels", "Flats", "Sneakers", "Gym & Training"],
-    Clothing: ["T-Shirts", "Leggings", "Dresses", "Sweatshirts"],
+    Clothing: ["T-Shirt", "Leggings", "Dresses", "Sweatshirts"],
     Accessories: ["Bags", "Scarves", "Jewelry"],
     Sport: ["Yoga", "Tennis", "Running"],
   },
   Kids: {
     Shoes: ["Sneakers", "Sandals", "Boots"],
-    "Boys Clothing": ["T-Shirts", "Shorts", "Hoodies"],
+    "Boys Clothing": ["T-Shirt", "Shorts", "Hoodies"],
     "Girls Clothing": ["Dresses", "Leggings", "Jackets"],
     "Back to School": ["Backpacks", "Lunch Boxes", "School Shoes"],
   },
@@ -87,7 +87,7 @@ function DropdownMenu({ category }: DropdownMenuProps) {
                   <li key={item}>
                     <Link
                       href={`/${
-                        category === "Brands" ? "brands" : "collection"
+                        category === "Brands" ? "brands" : "shop"
                       }/${item.toLowerCase().replace(/\s/g, "-")}`}
                       className="hover:underline text-xs text-black"
                     >

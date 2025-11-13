@@ -65,14 +65,14 @@ export default function HomeJoggers() {
 
   return (
     <div>
-      <div className="relative w-full h-[60vh] sm:h-[70vh] lg:h-[80vh] overflow-hidden">
+      <div className="relative w-full h-[60vh] sm:h-[70vh] lg:h-screen overflow-hidden">
         <Link
           href="/shop/trousers"
           className="block w-full h-full group cursor-pointer"
         >
           <div className="relative w-full h-full">
             <Image
-              src="/homejoggers.webp"
+              src="/desktop-next.webp"
               alt="Premium Joggers Collection"
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
