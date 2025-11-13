@@ -8,7 +8,7 @@ interface ProductAccordionProps {
     name: string;
     description?: string;
     category?: string;
-    brand?: string;
+    brands?: string;
     material?: string;
     care?: string;
   };
@@ -47,8 +47,8 @@ export default function ProductAccordion({ product }: ProductAccordionProps) {
       title: "Brand",
       content: (
         <div className="space-y-2 text-sm text-gray-700">
-          <p>
-            <strong>{product.brand || "Polo Ralph Lauren"}</strong>
+          <p className="capitalize">
+            <strong>{product.brands || "Polo Ralph Lauren"}</strong>
           </p>
           <p>
             Since 1967, Polo Ralph Lauren has defined classic American style

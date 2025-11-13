@@ -18,6 +18,7 @@ import ProductAccordion from "@/app/components/ui/products/ProductAccordion";
 import { useCartStore } from "@/app/cart/store";
 import { useCartModal } from "@/app/context/CartModalcontext";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface Product {
   id: string;
@@ -46,6 +47,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     }
     setSizeError("");
     addItem({ ...product, selectedSize });
+    toast.success(`Added ${product.name} to your cart!`, {
+      duration: 2000,
+    });
     openModal();
   };
 

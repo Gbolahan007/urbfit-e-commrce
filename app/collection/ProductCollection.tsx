@@ -9,6 +9,7 @@ import { useCartModal } from "../context/CartModalcontext";
 import { usePathname } from "next/navigation";
 import FilterPage from "../components/ui/FilterPage";
 import { useFilteredProducts } from "../components/ui/products/useFilteredProducts";
+import { toast } from "sonner";
 
 export interface Product {
   id: number;
@@ -77,6 +78,11 @@ export default function ProductCollection({
       image: product.image,
       selectedSize: "M",
     });
+
+    toast.success(`Added ${product.name} to your cart!`, {
+      duration: 2000,
+    });
+
     openModal();
   };
 

@@ -7,6 +7,7 @@ import ReactQueryProvider from "./(provider)/ReactQueryProvider";
 import { Footer } from "./components/Footer";
 import { CartModalProvider } from "./context/CartModalcontext";
 import SplashScreen from "./SplashScreen";
+import { Toaster } from "sonner"; // 🧩 Add this
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -51,6 +52,17 @@ export default function RootLayout({
             </div>
           </CartModalProvider>
         </ReactQueryProvider>
+
+        <Toaster
+          richColors
+          position="top-right"
+          toastOptions={{
+            style: {
+              fontFamily: "inherit",
+              borderRadius: "10px",
+            },
+          }}
+        />
       </body>
     </html>
   );
