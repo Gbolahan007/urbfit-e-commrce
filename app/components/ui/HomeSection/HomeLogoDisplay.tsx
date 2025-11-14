@@ -165,7 +165,7 @@ export default function HomeLogoDisplay() {
             <Link
               key={`${brand.id}-${i}`}
               href={`/brands/${brand.slug}`}
-              className="relative flex-shrink-0 w-32 h-32 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300"
+              className="relative flex-shrink-0 w-32 h-32 flex items-center justify-center  hover:scale-110  transition-all duration-300"
             >
               <Image
                 src={`/${brand.id}.png`}

@@ -2,33 +2,49 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 export default function HeroVideo() {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
   const router = useRouter();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Ensure video plays on mount
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.log("Autoplay prevented:", error);
+      });
+    }
+  }, []);
 
   return (
-    <div className="relative h-screen w-full overflow-hidden overflow-x-hidden">
+    <div className="relative h-screen w-full overflow-hidden">
+      {/* Video Background */}
       <video
-        className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 ${
-          videoLoaded && !videoError ? "opacity-100" : ""
-        }`}
+        ref={videoRef}
+        className="absolute top-0 left-0 w-full h-full object-cover"
         autoPlay
         muted
         loop
         playsInline
-        onLoadedData={() => setVideoLoaded(true)}
-        onError={() => setVideoError(true)}
+        preload="auto"
       >
-        <source src="/heroVideo.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
+        <source src="/heroo-video.mp4" type="video/mp4" />
+        <source src="/heroo-video.webm" type="video/webm" />
       </video>
 
-      <div className="absolute inset-0 bg-black bg-opacity-20"></div>
+      {/* Fallback Background Image */}
+      <div
+        className="absolute top-0 left-0 w-full h-full -z-10"
+        style={{
+          backgroundImage: "url('/layer.avif')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
 
+      {/* CTA Button */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center z-20 top-36"
         initial={{ y: 80, opacity: 0 }}
