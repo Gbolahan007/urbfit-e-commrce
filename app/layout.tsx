@@ -7,7 +7,8 @@ import ReactQueryProvider from "./(provider)/ReactQueryProvider";
 import { Footer } from "./components/Footer";
 import { CartModalProvider } from "./context/CartModalcontext";
 import SplashScreen from "./SplashScreen";
-import { Toaster } from "sonner"; // 🧩 Add this
+import { Toaster } from "sonner";
+import SmoothScrollWrapper from "./SmoothScrollWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,9 +33,9 @@ const tek = Tektur({
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
@@ -45,11 +46,14 @@ export default function RootLayout({
 
         <ReactQueryProvider>
           <CartModalProvider>
-            <div className={`${tek.className}`}>
-              <Header />
-              <main className="flex-grow">{children}</main>
-              <Footer />
-            </div>
+            {/* ⭐ WRAP YOUR ENTIRE SITE IN SMOOTH SCROLL */}
+            <SmoothScrollWrapper>
+              <div className={`${tek.className}`}>
+                <Header />
+                <main className="flex-grow">{children}</main>
+                <Footer />
+              </div>
+            </SmoothScrollWrapper>
           </CartModalProvider>
         </ReactQueryProvider>
 
