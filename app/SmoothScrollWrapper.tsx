@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, ReactNode, useState } from "react";
+import { useEffect, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -11,19 +11,16 @@ interface SmoothScrollWrapperProps {
 export default function SmoothScrollWrapper({
   children,
 }: SmoothScrollWrapperProps) {
-  const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768 || "ontouchstart" in window);
-    };
+    // Check if it's a mobile device - if so, don't apply smooth scroll
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) || window.innerWidth <= 768;
 
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    // Don't apply smooth scroll on mobile - use native scrolling
+    // Exit early on mobile - use native scrolling
     if (isMobile) {
-      return () => window.removeEventListener("resize", checkMobile);
+      return;
     }
 
     // Register ScrollTrigger plugin
@@ -82,7 +79,7 @@ export default function SmoothScrollWrapper({
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("resize", handleResize);
     };
-  }, [isMobile]);
+  }, []);
 
   return <>{children}</>;
 }
