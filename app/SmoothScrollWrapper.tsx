@@ -18,7 +18,6 @@ export default function SmoothScrollWrapper({
         navigator.userAgent
       ) || window.innerWidth <= 768;
 
-    // Exit early on mobile - use native scrolling
     if (isMobile) {
       return;
     }
@@ -29,8 +28,7 @@ export default function SmoothScrollWrapper({
     // Smooth scroll variables
     let currentScroll = 0;
     let targetScroll = 0;
-    const ease = 0.075; // Lower = smoother (0.05 - 0.15 recommended)
-
+    const ease = 0.075; 
     // Get max scroll height
     const getMaxScroll = () =>
       document.documentElement.scrollHeight - window.innerHeight;

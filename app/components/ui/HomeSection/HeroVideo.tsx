@@ -10,12 +10,41 @@ export default function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Ensure video plays on mount
-    if (videoRef.current) {
-      videoRef.current.play().catch((error) => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Initial play
+    const playVideo = () => {
+      video.play().catch((error) => {
         console.log("Autoplay prevented:", error);
       });
-    }
+    };
+
+    playVideo();
+
+    // Handle visibility change (when user returns to tab/app)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible" && video.paused) {
+        playVideo();
+      }
+    };
+
+    // Handle page focus (additional fallback)
+    const handleFocus = () => {
+      if (video.paused) {
+        playVideo();
+      }
+    };
+
+    // Add event listeners
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+
+    // Cleanup
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, []);
 
   return (
