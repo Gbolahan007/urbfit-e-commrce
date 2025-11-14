@@ -19,8 +19,9 @@ export function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="bg-white text-black px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white"
+                className="bg-white text-black px-4 py-2 text-sm outline-none focus:outline-none focus:ring-0"
               />
+
               <button
                 type="submit"
                 className="bg-white text-black px-4 py-2 text-sm font-semibold hover:bg-gray-200 transition-colors"
