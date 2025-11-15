@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 type TopPick = {
   id: string;
@@ -34,29 +33,36 @@ export default function HomeTopPicksClient({
 }: {
   topPicks: TopPick[];
 }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  useEffect(() => {
-    if (!topPicks?.length) return;
+  // 🔥 Convert all GSAP animations to useGSAP
+  useGSAP(
+    () => {
+      if (!topPicks?.length) return;
 
-    gsap.set(itemRefs.current, { y: -100, opacity: 0 });
+      // Initial state
+      gsap.set(itemRefs.current, { y: -100, opacity: 0 });
 
-    gsap.to(itemRefs.current, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power1.in",
-      stagger: 0.6,
-      scrollTrigger: {
-        trigger: itemRefs.current[0], // first item triggers the animation
-        start: "top 70%", // when it reaches 70% of viewport
-        toggleActions: "play none none none",
-      },
-    });
-  }, [topPicks]);
+      // Stagger animation
+      gsap.to(itemRefs.current, {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        ease: "power1.in",
+        stagger: 0.6,
+        scrollTrigger: {
+          trigger: itemRefs.current[0],
+          start: "top 70%",
+          toggleActions: "play none none none",
+        },
+      });
+    },
+    { dependencies: [topPicks], scope: containerRef }
+  );
 
   return (
-    <div className="w-full py-8">
+    <div className="w-full py-8" ref={containerRef}>
       <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         {/* Header */}
         <div className="mb-6 flex items-end justify-between">

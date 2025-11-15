@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import { Tektur } from "next/font/google";
 
 // Load Tektur font
@@ -14,35 +15,40 @@ export default function SplashScreen() {
   const lettersRef = useRef<(HTMLSpanElement | null)[]>([]);
   const splashRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
+  // 🔥 GSAP Animations
+  useGSAP(
+    () => {
+      const letters = lettersRef.current.filter(Boolean);
+      if (letters.length === 0) return;
+
       // Set initial state - letters start above viewport
-      gsap.set(lettersRef.current, { y: -200, opacity: 0 });
+      gsap.set(letters, { y: -200, opacity: 0 });
 
       // Create timeline
       const tl = gsap.timeline({
         onComplete: () => {
-          // Fade out splash screen after animation
+          // Zoom out and fade splash screen with scale effect
           gsap.to(splashRef.current, {
+            scale: 1.5,
             opacity: 0,
-            duration: 0.6,
-            delay: 1,
+            duration: 1,
+            delay: 0.8,
+            ease: "power2.inOut",
             onComplete: () => setHidden(true),
           });
         },
       });
 
-      tl.to(lettersRef.current, {
+      tl.to(letters, {
         y: 0,
         opacity: 1,
         duration: 1,
         stagger: 0.3,
         ease: "bounce.out", // Bounce effect when landing
       });
-    }, splashRef);
-
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: splashRef }
+  );
 
   if (hidden) return null;
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
+import { useRef, useState } from "react";
+import { gsap } from "gsap";
+import { useGSAP } from "@gsap/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,15 +25,14 @@ export default function HomeSectionPicksClient({
   const tweenRef = useRef<gsap.core.Tween | null>(null);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Duplicate items for seamless infinite scroll
   const duplicatedPicks = [...homePicks, ...homePicks];
 
-  // ✅ GSAP Infinite Scroll (same as HomeLogoDisplay)
-  useEffect(() => {
+  useGSAP(() => {
     const slider = sliderRef.current;
     if (!slider) return;
 
     const totalWidth = slider.scrollWidth / 2;
+
     const tween = gsap.to(slider, {
       x: `-${totalWidth}px`,
       duration: 20,
@@ -41,14 +41,10 @@ export default function HomeSectionPicksClient({
     });
 
     tweenRef.current = tween;
-
-    return () => {
-      tween.kill();
-    };
   }, [homePicks]);
 
-  //  Pause on hover like in HomeLogoDisplay
-  useEffect(() => {
+  // Pause / resume logic stays the same
+  useGSAP(() => {
     if (isPaused) tweenRef.current?.pause();
     else tweenRef.current?.resume();
   }, [isPaused]);

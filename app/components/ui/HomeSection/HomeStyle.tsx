@@ -1,24 +1,25 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export default function HomeStyle() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const leftImageRef = useRef<HTMLDivElement | null>(null);
   const rightImageRef = useRef<HTMLDivElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
+      // Set initial positions
       gsap.set(leftImageRef.current, { x: "-100%", opacity: 0 });
       gsap.set(rightImageRef.current, { x: "100%", opacity: 0 });
 
+      // Timeline animation
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -43,10 +44,9 @@ export default function HomeStyle() {
         },
         "<"
       );
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: containerRef }
+  ); // IMPORTANT: GSAP context scoped to this section
 
   return (
     <a href="/collection">

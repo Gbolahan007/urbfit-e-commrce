@@ -46,7 +46,6 @@ export default function RootLayout({
 
         <ReactQueryProvider>
           <CartModalProvider>
-            {/* ⭐ WRAP YOUR ENTIRE SITE IN SMOOTH SCROLL */}
             <SmoothScrollWrapper>
               <div className={`${tek.className}`}>
                 <Header />

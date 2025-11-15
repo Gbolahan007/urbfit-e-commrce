@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, ReactNode } from "react";
+import { ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SmoothScrollWrapperProps {
   children: ReactNode;
@@ -11,7 +14,7 @@ interface SmoothScrollWrapperProps {
 export default function SmoothScrollWrapper({
   children,
 }: SmoothScrollWrapperProps) {
-  useEffect(() => {
+  useGSAP(() => {
     // Check if it's a mobile device - if so, don't apply smooth scroll
     const isMobile =
       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
@@ -22,19 +25,25 @@ export default function SmoothScrollWrapper({
       return;
     }
 
-    // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
-
     // Smooth scroll variables
     let currentScroll = 0;
     let targetScroll = 0;
-    const ease = 0.075; 
+    const ease = 0.075;
+
     // Get max scroll height
     const getMaxScroll = () =>
       document.documentElement.scrollHeight - window.innerHeight;
 
     // Handle wheel events
     const handleWheel = (e: WheelEvent) => {
+      // Check if it's a horizontal scroll gesture (shift + wheel or trackpad horizontal)
+      // Only allow native horizontal scrolling for these cases
+      if (e.shiftKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        // This is an explicit horizontal scroll - let browser handle it
+        return;
+      }
+
+      // For all vertical scrolling, apply smooth scroll
       e.preventDefault();
       targetScroll += e.deltaY;
       targetScroll = Math.max(0, Math.min(targetScroll, getMaxScroll()));
@@ -71,13 +80,13 @@ export default function SmoothScrollWrapper({
     };
     window.addEventListener("resize", handleResize);
 
-    // Cleanup
+    // Cleanup function
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  });
 
   return <>{children}</>;
 }

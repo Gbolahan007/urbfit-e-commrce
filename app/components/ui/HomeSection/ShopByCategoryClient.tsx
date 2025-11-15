@@ -1,17 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
-
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 
-// Register ScrollTrigger
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 type Category = {
   name: string;
@@ -24,36 +20,42 @@ export default function ShopByCategoryClient({
 }: {
   homeCategory: Category[];
 }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const categoryRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  useEffect(() => {
-    // Set initial state - categories start above viewport
-    gsap.set(categoryRefs.current, {
-      y: -100,
-      opacity: 0,
-    });
+  // 🔥 GSAP Animations
+  useGSAP(
+    () => {
+      const categories = categoryRefs.current.filter(Boolean);
+      if (categories.length === 0) return;
 
-    // Animate each category dropping down with stagger
-    gsap.to(categoryRefs.current, {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power1.in",
-      stagger: 0.6,
-      delay: 0.3,
-      scrollTrigger: {
-        trigger: categoryRefs.current[0],
-        start: "top 70%",
-        toggleActions: "play none none none",
-      },
-    });
-  }, [homeCategory]);
+      // Set initial state - categories start above viewport
+      gsap.set(categories, {
+        y: -100,
+        opacity: 0,
+      });
+
+      // Animate each category dropping down with stagger
+      gsap.to(categories, {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        ease: "power1.in",
+        stagger: 0.6,
+        delay: 0.3,
+        scrollTrigger: {
+          trigger: categories[0],
+          start: "top 70%",
+          toggleActions: "play none none none",
+        },
+      });
+    },
+    { scope: containerRef, dependencies: [homeCategory] }
+  );
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
+    <div
+      ref={containerRef}
       className="bg-[#f7f6f3] py-10 px-4 overflow-x-hidden"
     >
       <div className="max-w-6xl mx-auto">
@@ -105,6 +107,6 @@ export default function ShopByCategoryClient({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

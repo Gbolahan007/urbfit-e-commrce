@@ -1,24 +1,23 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { CreditCard, Package, Gift, Truck } from "lucide-react";
 
-// Register GSAP plugin
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export default function HomeLogoDisplay() {
-  const sliderRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
   const tweenRef = useRef<gsap.core.Tween | null>(null);
 
   const [isPaused, setIsPaused] = useState(false);
   const [email, setEmail] = useState("");
+
   const brands = [
     { id: 1, name: "Fatface", slug: "fatface" },
     { id: 2, name: "Fred Perry", slug: "fred-perry" },
@@ -32,54 +31,44 @@ export default function HomeLogoDisplay() {
     { id: 10, name: "Phase Eight", slug: "phase-eight" },
     { id: 11, name: "Skopes", slug: "skopes" },
   ];
+
   const duplicatedBrands = [...brands, ...brands];
 
-  // GSAP Infinite Logo Scroll
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+  // 🔥 GSAP Animations (Logo scroll + Footer reveal)
+  useGSAP(
+    () => {
+      const slider = sliderRef.current;
+      if (!slider) return;
 
-    const totalWidth = slider.scrollWidth / 2;
-    const tween = gsap.to(slider, {
-      x: `-${totalWidth}px`,
-      duration: 20,
-      ease: "linear",
-      repeat: -1,
-    });
+      // Infinite horizontal scroll
+      const totalWidth = slider.scrollWidth / 2;
 
-    tweenRef.current = tween;
+      const tween = gsap.to(slider, {
+        x: `-${totalWidth}px`,
+        duration: 20,
+        ease: "linear",
+        repeat: -1,
+      });
 
-    return () => {
-      tween.kill();
-    };
-  }, []);
+      tweenRef.current = tween;
 
-  // Footer Reveal ScrollTrigger Effect
-  useEffect(() => {
-    const container = containerRef.current;
-
-    if (container) {
-      const revealAnimation = gsap.to(container, {
+      // Footer reveal scroll effect
+      gsap.to(containerRef.current, {
         y: "-100%",
         ease: "none",
         scrollTrigger: {
-          trigger: container,
+          trigger: containerRef.current,
           start: "top top",
           end: "bottom top",
           scrub: 1,
-          pin: false,
-          invalidateOnRefresh: true,
         },
       });
+    },
+    { scope: containerRef }
+  );
 
-      return () => {
-        revealAnimation.kill();
-        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      };
-    }
-  }, []);
-
-  useEffect(() => {
+  // Pause and play infinite scroll on hover
+  useGSAP(() => {
     if (isPaused) tweenRef.current?.pause();
     else tweenRef.current?.resume();
   }, [isPaused]);
@@ -100,7 +89,6 @@ export default function HomeLogoDisplay() {
       <div className="border-b border-neutral-300">
         <div className="container mx-auto px-6 py-6 sm:py-7">
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {/* Payment */}
             <div className="flex flex-col items-center text-center">
               <CreditCard
                 className="w-12 h-12 mb-4 text-neutral-800"
@@ -112,7 +100,6 @@ export default function HomeLogoDisplay() {
               <p className="text-sm text-neutral-600">Credit card & PayPal</p>
             </div>
 
-            {/* Delivery */}
             <div className="flex flex-col items-center text-center">
               <Package
                 className="w-12 h-12 mb-4 text-neutral-800"
@@ -124,7 +111,6 @@ export default function HomeLogoDisplay() {
               <p className="text-sm text-neutral-600">24h Green delivery</p>
             </div>
 
-            {/* Wonder Card */}
             <div className="flex flex-col items-center text-center">
               <Gift
                 className="w-12 h-12 mb-4 text-neutral-800"
@@ -138,7 +124,6 @@ export default function HomeLogoDisplay() {
               </p>
             </div>
 
-            {/* Shipping */}
             <div className="flex flex-col items-center text-center">
               <Truck
                 className="w-12 h-12 mb-4 text-neutral-800"
@@ -165,7 +150,7 @@ export default function HomeLogoDisplay() {
             <Link
               key={`${brand.id}-${i}`}
               href={`/brands/${brand.slug}`}
-              className="relative flex-shrink-0 w-32 h-32 flex items-center justify-center  hover:scale-110  transition-all duration-300"
+              className="relative flex-shrink-0 w-32 h-32 flex items-center justify-center hover:scale-110 transition-all duration-300"
             >
               <Image
                 src={`/${brand.id}.png`}
@@ -187,14 +172,15 @@ export default function HomeLogoDisplay() {
           <p className="text-neutral-600 mb-8 max-w-xl mx-auto">
             Be the first to know about new collections and exclusive offers.
           </p>
+
           <div className="relative max-w-2xl mx-auto">
             <input
               type="email"
-              placeholder=""
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-8 py-5 bg-transparent border border-black rounded-full text-black placeholder:text-white/50 focus:outline-none focus:border-black/60 transition-colors"
             />
+
             <button
               onClick={handleSubmit}
               className="absolute right-2 top-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors group"
@@ -202,12 +188,10 @@ export default function HomeLogoDisplay() {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                viewBox="0 0 24 24"
                 className="w-6 h-6 text-black group-hover:translate-x-1 transition-transform"
               >
                 <path d="M5 12h14" />
