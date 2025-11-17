@@ -194,7 +194,6 @@ export async function getBrands() {
   const { data, error } = await supabase
     .from("brands")
     .select("*")
-    .in("name", ["Dior", "Vans", "ASOS", "Lacoste", "New Balance", "Boden"]) // Filter specific brands
     .order("created_at", { ascending: false });
 
   if (error) {
